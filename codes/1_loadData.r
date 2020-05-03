@@ -5,9 +5,9 @@ require(matrixcalc)
 ## load data: Wuhan's population age structure and Contact matrices
 
 loadPopData = TRUE
-loadContactMatrices = TRUE
-loadCaseData =TRUE
-loadR0posterior =TRUE
+loadContactMatrices = FALSE
+loadCaseData = FALSE
+loadR0posterior = FALSE
 
 
 ## load data: Population age structure (currently using China's) and Contact matrices
@@ -55,6 +55,8 @@ if(loadCaseData)
   rm(wuhancaseraw,caseage)
 }
 
+
+# R0
 if(loadR0posterior)
 {
   # --- read in R0 posterior
