@@ -292,8 +292,3 @@ save(epiFirstSimDurInf7I2000sc,file ='outputs/SEIcIscR/epiFirstSimDurInf7I2000.r
 rm(epi_doNothingDurInf3I2000,epi_baseDurInf3I2000,epi_marchDurInf3I2000,epi_aprilDurInf3I2000)
 rm(epi_doNothingDurInf7I2000,epi_baseDurInf7I2000,epi_marchDurInf7I2000,epi_aprilDurInf7I2000)
 
-
-
-
-
-

@@ -4,8 +4,8 @@ require(readxl)
 
 # Argentina Data
 
-loadPopData = FALSE  # cual es la base de datos?
-loadContactMatrices = TRUE # estan normalizadas? hace falta normalizarlas?
+loadPopData = TRUE
+loadContactMatrices = FALSE # estan normalizadas? hace falta normalizarlas?
 loadCaseData = TRUE
 loadR0posterior = TRUE
 
@@ -14,7 +14,7 @@ loadR0posterior = TRUE
 # 1) Argentina population data 
 if(loadPopData) 
 { 
-  # ATENTI: wuhanpop.csv la utiliza para normalizar la matriz de contacto y la llama varias veces
+  localpop = read.csv('data/bsaspop.csv',as.is = TRUE) 
 }
 
 
@@ -23,8 +23,8 @@ if(loadPopData)
 if(loadContactMatrices)
 {
   contacts <- contacts_arg # normalize.contact.matrices(contacts_arg,wuhanpop$popage, make.sym=T)
-  rm(contacts_arg)
 }
+rm(contacts_arg)
 
 
 # 3) Case age distribution  >> LISTO

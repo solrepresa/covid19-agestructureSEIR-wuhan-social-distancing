@@ -4,8 +4,8 @@ require(matrixcalc)
 
 ## load data: Wuhan's population age structure and Contact matrices
 
-loadPopData = TRUE
-loadContactMatrices = FALSE
+loadPopData = FALSE
+loadContactMatrices = TRUE
 loadCaseData = FALSE
 loadR0posterior = FALSE
 
@@ -15,7 +15,7 @@ loadR0posterior = FALSE
 # 1) population data
 if(loadPopData) 
 { 
-  wuhanpop = read.csv('data/wuhanpop.csv',as.is = TRUE)
+  localpop = read.csv('data/wuhanpop.csv',as.is = TRUE)
 }
 
 # 2) (projected) contact matrices 
@@ -42,7 +42,7 @@ normalize.contact.matrices <- function(C, popv, make.sym = F){
 if(loadContactMatrices)
 {
   load(paste0('data/contacts_china.rdata'))
-  contacts <- contacts_china # normalize.contact.matrices(contacts_china,wuhanpop$popage, make.sym=T)
+  contacts <- contacts_china # normalize.contact.matrices(contacts_china,localpop$popage, make.sym=T)
   rm(contacts_china)
 }
 

@@ -93,11 +93,11 @@ getbeta = function(R0t,constraints,gamma,p_age,calculate_transmission_probabilit
 
 
 # Children as infectious and as susceptible 
-simulateOutbreakSEIR = function(R0t,rho, R0tpostoutbreak = 1.5,dateEndIntenseIntervention, #date we begin relaxing intense intervention 
+simulateOutbreakSEIR = function(R0t,rho, R0tpostoutbreak = 1.5, dateEndIntenseIntervention, #date we begin relaxing intense intervention 
                             pWorkOpen = c(0.1,0.25,0.5,0.9), # pWorkOpen: proportion of the work force that is working (will be time-varying)
                             dateStartSchoolClosure = as.Date('2020-01-15') , # cause winter term break 
                             dateStartIntenseIntervention = as.Date('2020-01-23') , #Intense intervention: starts at Wuhan Lockdown
-                            dateStart = as.Date('2019-11-01'),POP = wuhanpop,numWeekStagger=c(2,4,6),pInfected=0.0002,durInf = 7,contacts_china=contacts)
+                            dateStart = as.Date('2019-11-01'), POP = localpop, numWeekStagger=c(2,4,6), pInfected=0.0002, durInf = 7, contacts_china=contacts)
 {
   # debug dateStartIntenseIntervention = as.Date('2020-01-23')  
   # debug dateEndIntenseIntervention = as.Date('2020-03-01')
@@ -107,12 +107,11 @@ simulateOutbreakSEIR = function(R0t,rho, R0tpostoutbreak = 1.5,dateEndIntenseInt
   
   
   # Load population information
-  # pop = loadPopInfo(POP = wuhanpop)
+  # pop = loadPopInfo(POP = localpop)
   pop = list()
   pop$N = sum(POP$popage)
-  pop$p_age = wuhanpop$propage
+  pop$p_age = localpop$propage
   N_age = pop$N*pop$p_age                                        # Population age structure (in numbers)
-  # contacts_china = CONTACTS
   
   
   # Specify epi info
@@ -137,7 +136,7 @@ simulateOutbreakSEIR = function(R0t,rho, R0tpostoutbreak = 1.5,dateEndIntenseInt
   
   # Initialise the time-dependent variables, i.e. setting the values of the variables at time 0
   E[1,] = 0 
-  I[1,] =  pInfected*sum(N_age)/16#rpois(length(N_age),lambda = pInfected*sum(N_age)/16)  # 100 # Assign 100 infected person in each age group (TODO RELAX?)
+  I[1,] =  pInfected*sum(N_age)/16 #rpois(length(N_age),lambda = pInfected*sum(N_age)/16)  # 100 # Assign 100 infected person in each age group (TODO RELAX?)
   R[1,] = 0 
   S[1,] = N_age-E[1,]-I[1,]-R[1,]
   H[1,] = 0                                  # Accumulator function for the infected cases (I) that get re
@@ -245,7 +244,7 @@ simulateOutbreakSEIcIscR = function(R0t,rho=c(rep(0.4,4),rep(0.8,12)), R0tpostou
                                     pWorkOpen = c(0.1,0.25,0.5,0.9), # pWorkOpen: proportion of the work force that is working (will be time-varying)
                                     dateStartSchoolClosure = as.Date('2020-01-15') , # cause winter term break 
                                     dateStartIntenseIntervention = as.Date('2020-01-23') , #Intense intervention: starts at Wuhan Lockdown
-                                    dateStart = as.Date('2019-11-01'),POP = wuhanpop,numWeekStagger=c(2,4,6),pInfected=0.0002,durInf = 7,contacts_china=contacts)
+                                    dateStart = as.Date('2019-11-01'),POP = localpop,numWeekStagger=c(2,4,6),pInfected=0.0002,durInf = 7,contacts_china=contacts)
 {
   # debug dateStartIntenseIntervention = as.Date('2020-01-23')  
   # debug dateEndIntenseIntervention = as.Date('2020-03-01')
@@ -255,10 +254,10 @@ simulateOutbreakSEIcIscR = function(R0t,rho=c(rep(0.4,4),rep(0.8,12)), R0tpostou
   
   
   # Load population information
-  # pop = loadPopInfo(POP = wuhanpop)
+  # pop = loadPopInfo(POP = localpop)
   pop = list()
   pop$N = sum(POP$popage)
-  pop$p_age = wuhanpop$propage
+  pop$p_age = localpop$propage
   N_age = pop$N*pop$p_age                                        # Population age structure (in numbers)
   # contacts_china = CONTACTS
   

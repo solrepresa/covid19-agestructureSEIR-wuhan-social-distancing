@@ -9,7 +9,9 @@ r0postCrI = r0posterior
 R0est = sample(x = r0postCrI,size = nsim)
 # print(R0est)
 
-## To simulate n_simSEIR outbreaks: duration of infection = 3 days, initial infected  n=~200 infected
+## To simulate n_simSEIR outbreaks: 
+## duration of infection = 3 days, initial infected  n=~200 infected
+
 epi_doNothingDurInf3 = vector('list',nsim)
 epi_baseDurInf3 = vector('list',nsim)
 epi_marchDurInf3 = vector('list',nsim)
@@ -19,15 +21,33 @@ durInfSim = 3
 initialI = 0.0002
 for(sim in 1:nsim)
 {
-  epi_doNothingDurInf3[[sim]] = simulateOutbreakSEIR(R0t =R0est[sim] ,rho = rep(0.5,3660),dateStartSchoolClosure = as.Date('2019-11-01'),
-                                                 dateStartIntenseIntervention = as.Date('2019-11-01'), dateEndIntenseIntervention = as.Date('2019-11-01'),
-                                                 pWorkOpen = c(1,1,1,1),numWeekStagger = c(0,0,0),pInfected=initialI,durInf = durInfSim)
-  epi_baseDurInf3[[sim]] = simulateOutbreakSEIR(R0t =R0est[sim] ,rho = rep(0.5,3660),dateEndIntenseIntervention = as.Date('2020-01-31'),pWorkOpen = c(0.1,0.75,1,1),
-                                                numWeekStagger = c(10/7,10/7,10/7),pInfected=initialI,durInf = durInfSim)
-  epi_marchDurInf3[[sim]] = simulateOutbreakSEIR(R0t =R0est[sim] ,rho = rep(0.5,3660),dateEndIntenseIntervention = as.Date('2020-03-01'),
-                                             pInfected=initialI,durInf = durInfSim)
-  epi_aprilDurInf3[[sim]] = simulateOutbreakSEIR(R0t =R0est[sim] ,rho = rep(0.5,3660),dateEndIntenseIntervention = as.Date('2020-04-01'),
-                                             pInfected=initialI,durInf = durInfSim)
+  epi_doNothingDurInf3[[sim]] = simulateOutbreakSEIR(R0t = R0est[sim], 
+                                                     rho = rep(0.5,3660),
+                                                     dateStartSchoolClosure = as.Date('2019-11-01'),
+                                                     dateStartIntenseIntervention = as.Date('2019-11-01'),
+                                                     dateEndIntenseIntervention = as.Date('2019-11-01'),
+                                                     pWorkOpen = c(1,1,1,1),
+                                                     numWeekStagger = c(0,0,0),
+                                                     pInfected=initialI,
+                                                     durInf = durInfSim)
+  
+  epi_baseDurInf3[[sim]] = simulateOutbreakSEIR(R0t =R0est[sim],
+                                                rho = rep(0.5,3660),
+                                                dateEndIntenseIntervention = as.Date('2020-01-31'),
+                                                pWorkOpen = c(0.1,0.75,1,1),
+                                                numWeekStagger = c(10/7,10/7,10/7),
+                                                pInfected=initialI,durInf = durInfSim)
+  
+  epi_marchDurInf3[[sim]] = simulateOutbreakSEIR(R0t =R0est[sim],
+                                                 rho = rep(0.5,3660), 
+                                                 dateEndIntenseIntervention = as.Date('2020-03-01'),
+                                                 pInfected=initialI,durInf = durInfSim)
+  
+  epi_aprilDurInf3[[sim]] = simulateOutbreakSEIR(R0t =R0est[sim],
+                                                 rho = rep(0.5,3660),
+                                                 dateEndIntenseIntervention = as.Date('2020-04-01'),
+                                                 pInfected=initialI,durInf = durInfSim)
+  
   if(sim%%10==0) print(paste0('Done with simulation ',sim))
 }
 end = Sys.time()
@@ -69,8 +89,11 @@ epiFirstSimDurInf3 = list(epi_doNothingDurInf3 = epi_doNothingDurInf3[[1]],
                           epi_aprilDurInf3 = epi_aprilDurInf3[[1]])
 
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
-## To simulate n_simSEIR outbreaks: duration of infection = 7 days, initial infected  n=~200 infected
+## To simulate n_simSEIR outbreaks: 
+## duration of infection = 7 days, initial infected  n=~200 infected
+
 
 epi_doNothingDurInf7 = vector('list',nsim)
 epi_baseDurInf7 = vector('list',nsim)
@@ -81,19 +104,40 @@ durInfSim = 7
 initialI = 0.0002
 for(sim in 1:nsim)
 {
-  epi_doNothingDurInf7[[sim]] = simulateOutbreakSEIR(R0t =R0est[sim] ,rho = rep(0.5,3660),dateStartSchoolClosure = as.Date('2019-11-01'),
-                                                 dateStartIntenseIntervention = as.Date('2019-11-01'), dateEndIntenseIntervention = as.Date('2019-11-01'),
-                                                 pWorkOpen = c(1,1,1,1),numWeekStagger = c(0,0,0,0),pInfected=initialI,durInf = durInfSim)
-  epi_baseDurInf7[[sim]] = simulateOutbreakSEIR(R0t =R0est[sim] ,rho = rep(0.5,3660),dateEndIntenseIntervention = as.Date('2020-01-31'),pWorkOpen = c(0.1,0.75,1,1),
-                                                numWeekStagger = c(10/7,10/7,10/7),pInfected=initialI,durInf = durInfSim)
-  epi_marchDurInf7[[sim]] = simulateOutbreakSEIR(R0t =R0est[sim] ,rho = rep(0.5,3660),dateEndIntenseIntervention = as.Date('2020-03-01'),
-                                             pInfected=initialI,durInf = durInfSim)
-  epi_aprilDurInf7[[sim]] = simulateOutbreakSEIR(R0t =R0est[sim] ,rho = rep(0.5,3660),dateEndIntenseIntervention = as.Date('2020-04-01'),
-                                             pInfected=initialI,durInf = durInfSim)
+  epi_doNothingDurInf7[[sim]] = simulateOutbreakSEIR(R0t = R0est[sim],
+                                                     rho = rep(0.5,3660),
+                                                     dateStartSchoolClosure = as.Date('2019-11-01'),
+                                                     dateStartIntenseIntervention = as.Date('2019-11-01'), 
+                                                     dateEndIntenseIntervention = as.Date('2019-11-01'),
+                                                     pWorkOpen = c(1,1,1,1),
+                                                     numWeekStagger = c(0,0,0,0),
+                                                     pInfected=initialI,
+                                                     durInf = durInfSim)
+  
+  epi_baseDurInf7[[sim]] = simulateOutbreakSEIR(R0t = R0est[sim] ,
+                                                rho = rep(0.5,3660),
+                                                dateEndIntenseIntervention = as.Date('2020-01-31'),
+                                                pWorkOpen = c(0.1,0.75,1,1),
+                                                numWeekStagger = c(10/7,10/7,10/7),
+                                                pInfected=initialI,durInf = durInfSim)
+  
+  epi_marchDurInf7[[sim]] = simulateOutbreakSEIR(R0t =R0est[sim] ,
+                                                 rho = rep(0.5,3660),
+                                                 dateEndIntenseIntervention = as.Date('2020-03-01'),
+                                                 pInfected=initialI,
+                                                 durInf = durInfSim)
+  
+  epi_aprilDurInf7[[sim]] = simulateOutbreakSEIR(R0t =R0est[sim],
+                                                 rho = rep(0.5,3660),
+                                                 dateEndIntenseIntervention = as.Date('2020-04-01'),
+                                                 pInfected=initialI,
+                                                 durInf = durInfSim)
+  
   if(sim%%10==0) print(paste0('Done with simulation ',sim))
 }
 end = Sys.time()
 print(end-start)
+
 
 covid_SDurInf7 = list() 
 covid_SDurInf7[[1]] = summariseSimulations(VAR = 'S',CI = 50,SIMS = epi_doNothingDurInf7)
@@ -130,6 +174,8 @@ epiFirstSimDurInf7 = list(epi_doNothingDurInf7 = epi_doNothingDurInf7[[1]],
                           epi_marchDurInf7 = epi_marchDurInf7[[1]],
                           epi_aprilDurInf7 = epi_aprilDurInf7[[1]])
 
+
+
 save(covid_IDurInf3,file = 'outputs/SEIR/covid_IDurInf3.rdata')
 save(covid_SDurInf3,file = 'outputs/SEIR/covid_SDurInf3.rdata')
 save(covid_IDurInf7,file = 'outputs/SEIR/covid_IDurInf7.rdata')
@@ -151,7 +197,12 @@ rm(epi_doNothingDurInf3,epi_baseDurInf3,epi_marchDurInf3,epi_aprilDurInf3)
 rm(epi_doNothingDurInf7,epi_baseDurInf7,epi_marchDurInf7,epi_aprilDurInf7)
 
 
-## To simulate n_simSEIR outbreaks: duration of infection = 3 days, initial infected  n=~2000 infected
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
+## To simulate n_simSEIR outbreaks: 
+## duration of infection = 3 days, initial infected  n=~2000 infected
+
+
 epi_doNothingDurInf3I2000 = vector('list',nsim)
 epi_baseDurInf3I2000 = vector('list',nsim)
 epi_marchDurInf3I2000 = vector('list',nsim)
@@ -161,15 +212,35 @@ durInfSim = 3
 initialI = 0.002
 for(sim in 1:nsim)
 {
-  epi_doNothingDurInf3I2000[[sim]] = simulateOutbreakSEIR(R0t =R0est[sim] ,rho = rep(0.5,3660),dateStartSchoolClosure = as.Date('2019-11-01'),
-                                                     dateStartIntenseIntervention = as.Date('2019-11-01'), dateEndIntenseIntervention = as.Date('2019-11-01'),
-                                                     pWorkOpen = c(1,1,1,1),numWeekStagger = c(0,0,0),pInfected=initialI,durInf = durInfSim)
-  epi_baseDurInf3I2000[[sim]] = simulateOutbreakSEIR(R0t =R0est[sim] ,rho = rep(0.5,3660),dateEndIntenseIntervention = as.Date('2020-01-31'),pWorkOpen = c(0.1,0.75,1,1),
-                                                     numWeekStagger = c(10/7,10/7,10/7),pInfected=initialI,durInf = durInfSim)
-  epi_marchDurInf3I2000[[sim]] = simulateOutbreakSEIR(R0t =R0est[sim] ,rho = rep(0.5,3660),dateEndIntenseIntervention = as.Date('2020-03-01'),
-                                                 pInfected=initialI,durInf = durInfSim)
-  epi_aprilDurInf3I2000[[sim]] = simulateOutbreakSEIR(R0t =R0est[sim] ,rho = rep(0.5,3660),dateEndIntenseIntervention = as.Date('2020-04-01'),
-                                                 pInfected=initialI,durInf = durInfSim)
+  epi_doNothingDurInf3I2000[[sim]] = simulateOutbreakSEIR(R0t =R0est[sim],
+                                                          rho = rep(0.5,3660),
+                                                          dateStartSchoolClosure = as.Date('2019-11-01'),
+                                                          dateStartIntenseIntervention = as.Date('2019-11-01'), 
+                                                          dateEndIntenseIntervention = as.Date('2019-11-01'),
+                                                          pWorkOpen = c(1,1,1,1),
+                                                          numWeekStagger = c(0,0,0),
+                                                          pInfected=initialI,
+                                                          durInf = durInfSim)
+  
+  epi_baseDurInf3I2000[[sim]] = simulateOutbreakSEIR(R0t =R0est[sim] ,
+                                                     rho = rep(0.5,3660),
+                                                     dateEndIntenseIntervention = as.Date('2020-01-31'),
+                                                     pWorkOpen = c(0.1,0.75,1,1),
+                                                     numWeekStagger = c(10/7,10/7,10/7),
+                                                     pInfected=initialI,
+                                                     durInf = durInfSim)
+  
+  epi_marchDurInf3I2000[[sim]] = simulateOutbreakSEIR(R0t =R0est[sim] ,
+                                                      rho = rep(0.5,3660),
+                                                      dateEndIntenseIntervention = as.Date('2020-03-01'),
+                                                      pInfected=initialI,
+                                                      durInf = durInfSim)
+  
+  epi_aprilDurInf3I2000[[sim]] = simulateOutbreakSEIR(R0t =R0est[sim] ,
+                                                      rho = rep(0.5,3660),
+                                                      dateEndIntenseIntervention = as.Date('2020-04-01'),
+                                                      pInfected=initialI,durInf = durInfSim)
+  
   if(sim%%10==0) print(paste0('Done with simulation ',sim))
 }
 end = Sys.time()
@@ -211,8 +282,10 @@ epiFirstSimDurInf3I2000  = list(epi_doNothingDurInf3I2000 = epi_doNothingDurInf3
                           epi_aprilDurInf3I2000 = epi_aprilDurInf3I2000[[1]])
 
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
-## To simulate n_simSEIR outbreaks: duration of infection = 7 days, initial infected  n=~2000 infected
+## To simulate n_simSEIR outbreaks: 
+## duration of infection = 7 days, initial infected  n=~2000 infected
 
 epi_doNothingDurInf7I2000 = vector('list',nsim)
 epi_baseDurInf7I2000 = vector('list',nsim)

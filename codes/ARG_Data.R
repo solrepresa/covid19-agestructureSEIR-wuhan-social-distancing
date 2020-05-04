@@ -4,10 +4,6 @@ require(readxl)
 
 site = "ProvBsAS" 
 
-## 1)
-
-
-
 
 ## 2) Make a replace for contacts.rdata file
 
@@ -18,7 +14,7 @@ contact_school <- read.csv("data/Argentina_schools.txt", dec=",", sep = "\t")
 contact_other <- read.csv("data/Argentina_other_locations.txt", dec=",", sep = "\t")
 contact_all <- read.csv("data/Argentina_all_locations.txt", dec=",", sep = "\t")
 
-#transform to matrix
+#transform table to matrix
 contact_home <- matrix(as.numeric(unlist(contact_home)), nrow = 16, ncol = 16)
 contact_work <- matrix(as.numeric(unlist(contact_work)), nrow = 16, ncol = 16)
 contact_school <- matrix(as.numeric(unlist(contact_school)), nrow = 16, ncol = 16)
@@ -47,6 +43,7 @@ ageDistribution <- ageDistribution[c(1,2,4,3)]
 ageDistribution <- ageDistribution[complete.cases(ageDistribution),]
 
 
+
 # 4) load R0 Argentina
 
 R0_arg <- read_excel("data/DatosEpidemiologicosArgentina.xls", sheet=2, skip = 2)
@@ -55,4 +52,3 @@ R0_plot <- R0_arg[,2:ncol(R0_arg)]
 R0_dates <- R0_arg[,1]
 
 rm(R0_arg)
-
