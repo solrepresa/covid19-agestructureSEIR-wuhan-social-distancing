@@ -1,5 +1,4 @@
 ## 2_simOutbreak_ncov_SEIcIscR_ARG.r
-## To simulate n_simSEIR outbreaks >>> ARGENTINA
 
 # CUARENTENA: 05/03/2020
 
@@ -14,7 +13,7 @@ dateSII = as.Date('2020-03-19')   # date Start Intense Intervention
 
 
 ##     NuMBER SIMULATION     ##
-nsim = 2
+nsim = 200
 dateStart = as.Date('2020-03-05')
 
 
@@ -87,39 +86,49 @@ for(sim in 1:nsim)
 end = Sys.time()
 print(end-start)
 
-covid_SDurInf3sc = list() 
-covid_SDurInf3sc[[1]] = summariseSimulations(VAR = 'S',CI = 50,SIMS = epi_doNothingDurInf)
-covid_SDurInf3sc[[2]] = summariseSimulations(VAR = 'S',CI = 50,SIMS = epi_baseDurInf)
-covid_SDurInf3sc[[3]] = summariseSimulations(VAR = 'S',CI = 50,SIMS = epi_marchDurInf)
-covid_SDurInf3sc[[4]] = summariseSimulations(VAR = 'S',CI = 50,SIMS = epi_aprilDurInf)
+covid_SDurInf = list() 
+covid_SDurInf[[1]] = summariseSimulations(VAR = 'S',CI = 50,SIMS = epi_doNothingDurInf)
+covid_SDurInf[[2]] = summariseSimulations(VAR = 'S',CI = 50,SIMS = epi_baseDurInf)
+covid_SDurInf[[3]] = summariseSimulations(VAR = 'S',CI = 50,SIMS = epi_marchDurInf)
+covid_SDurInf[[4]] = summariseSimulations(VAR = 'S',CI = 50,SIMS = epi_aprilDurInf)
 
-covid_IDurInf3sc = list() 
-covid_IDurInf3sc[[1]] = summariseSimulations(VAR = 'incidence',CI = 50,SIMS = epi_doNothingDurInf)
-covid_IDurInf3sc[[2]] = summariseSimulations(VAR = 'incidence',CI = 50,SIMS = epi_baseDurInf)
-covid_IDurInf3sc[[3]] = summariseSimulations(VAR = 'incidence',CI = 50,SIMS = epi_marchDurInf)
-covid_IDurInf3sc[[4]] = summariseSimulations(VAR = 'incidence',CI = 50,SIMS = epi_aprilDurInf)
+covid_IDurInf = list() 
+covid_IDurInf[[1]] = summariseSimulations(VAR = 'incidence',CI = 50,SIMS = epi_doNothingDurInf)
+covid_IDurInf[[2]] = summariseSimulations(VAR = 'incidence',CI = 50,SIMS = epi_baseDurInf)
+covid_IDurInf[[3]] = summariseSimulations(VAR = 'incidence',CI = 50,SIMS = epi_marchDurInf)
+covid_IDurInf[[4]] = summariseSimulations(VAR = 'incidence',CI = 50,SIMS = epi_aprilDurInf)
 
-peaktime_DurInf3sc = list()
-peaktime_DurInf3sc[[1]] = summarisePeakTimePeakSize(SIMS = epi_doNothingDurInf)
-peaktime_DurInf3sc[[2]] = summarisePeakTimePeakSize(SIMS = epi_baseDurInf)
-peaktime_DurInf3sc[[3]] = summarisePeakTimePeakSize(SIMS = epi_marchDurInf)
-peaktime_DurInf3sc[[4]] = summarisePeakTimePeakSize(SIMS = epi_aprilDurInf)
+peaktime_DurInf = list()
+peaktime_DurInf[[1]] = summarisePeakTimePeakSize(SIMS = epi_doNothingDurInf)
+peaktime_DurInf[[2]] = summarisePeakTimePeakSize(SIMS = epi_baseDurInf)
+peaktime_DurInf[[3]] = summarisePeakTimePeakSize(SIMS = epi_marchDurInf)
+peaktime_DurInf[[4]] = summarisePeakTimePeakSize(SIMS = epi_aprilDurInf)
 
-covid_DurInf3sc = list() 
-covid_DurInf3sc[[1]] = summariseSimulations_mid(CI = 50, SIMS = epi_doNothingDurInf)
-covid_DurInf3sc[[2]] = summariseSimulations_mid(CI = 50, SIMS = epi_baseDurInf)
-covid_DurInf3sc[[3]] = summariseSimulations_mid(CI = 50, SIMS = epi_marchDurInf)
-covid_DurInf3sc[[4]] = summariseSimulations_mid(CI = 50, SIMS = epi_aprilDurInf)
+covid_DurInf = list() 
+covid_DurInf[[1]] = summariseSimulations_mid(CI = 50, SIMS = epi_doNothingDurInf)
+covid_DurInf[[2]] = summariseSimulations_mid(CI = 50, SIMS = epi_baseDurInf)
+covid_DurInf[[3]] = summariseSimulations_mid(CI = 50, SIMS = epi_marchDurInf)
+covid_DurInf[[4]] = summariseSimulations_mid(CI = 50, SIMS = epi_aprilDurInf)
 
-AGEcovid_IDurInf3sc = list()
-AGEcovid_IDurInf3sc[[1]] = summariseSimulationsAGE(VAR = 'incidence',CI = 50, SIMS = epi_doNothingDurInf)
-AGEcovid_IDurInf3sc[[2]] = summariseSimulationsAGE(VAR = 'incidence',CI = 50, SIMS = epi_baseDurInf)
-AGEcovid_IDurInf3sc[[3]] = summariseSimulationsAGE(VAR = 'incidence',CI = 50, SIMS = epi_marchDurInf)
-AGEcovid_IDurInf3sc[[4]] = summariseSimulationsAGE(VAR = 'incidence',CI = 50, SIMS = epi_aprilDurInf)
+AGEcovid_IDurInf = list()
+AGEcovid_IDurInf[[1]] = summariseSimulationsAGE(VAR = 'incidence',CI = 50, SIMS = epi_doNothingDurInf)
+AGEcovid_IDurInf[[2]] = summariseSimulationsAGE(VAR = 'incidence',CI = 50, SIMS = epi_baseDurInf)
+AGEcovid_IDurInf[[3]] = summariseSimulationsAGE(VAR = 'incidence',CI = 50, SIMS = epi_marchDurInf)
+AGEcovid_IDurInf[[4]] = summariseSimulationsAGE(VAR = 'incidence',CI = 50, SIMS = epi_aprilDurInf)
 
-epiFirstSimDurInf3sc = list(epi_doNothingDurInf = epi_doNothingDurInf[[1]],
+epiFirstSimDurInf = list(epi_doNothingDurInf = epi_doNothingDurInf[[1]],
                             epi_baseDurInf= epi_baseDurInf[[1]],
                             epi_marchDurInf = epi_marchDurInf[[1]],
                             epi_aprilDurInf = epi_aprilDurInf[[1]])
 
-save(epiFirstSimDurInf3sc, file ='outputs/SEIcIscR/epiFirstSimDurInf_ARG.rdata')
+save(covid_SDurInf,file = 'outputs/SEIcIscR/covid_SDurInf_ARG.rdata')
+save(covid_IDurInf,file = 'outputs/SEIcIscR/covid_IDurInf_ARG.rdata')
+save(peaktime_DurInf,file = 'outputs/SEIcIscR/peaktime_DurInf_ARG.rdata')
+save(covid_DurInf,file ='outputs/SEIcIscR/covid_DurInf_ARG.rdata')
+save(AGEcovid_IDurInf,file ='outputs/SEIcIscR/AGEcovid_IDurInf_ARG.rdata')
+
+save(epiFirstSimDurInf, file ='outputs/SEIcIscR/epiFirstSimDurInf_ARG.rdata')
+
+
+rm(epi_doNothingDurInf,epi_baseDurInf,epi_marchDurInf,epi_aprilDurInf)
+

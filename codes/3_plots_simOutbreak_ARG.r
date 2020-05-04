@@ -64,8 +64,6 @@ IncidenceAge_plot <- function(epi_doNothing, epi_base, epi_march, epi_april,
 
 
 
-
-
 # epiFirstSimDurInf.rData
 IncidenceAge_plot(epi_doNothingDurInf, epi_baseDurInf, epi_marchDurInf, epi_aprilDurInf, 
                  agegp = 3,
