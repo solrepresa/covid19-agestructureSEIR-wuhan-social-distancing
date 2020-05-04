@@ -128,7 +128,7 @@ save(covid_IDurInf,file = 'outputs/SEIR/covid_IDurInf_ARG.rdata')
 save(peaktime_DurInf,file = 'outputs/SEIR/peaktime_DurInf_ARG.rdata')
 save(covid_DurInf,file ='outputs/SEIR/covid_DurInf_ARG.rdata')
 save(AGEcovid_IDurInf,file ='outputs/SEIR/AGEcovid_IDurInf_ARG.rdata')
-save(epiFirstSimDurInf3I2000,file ='outputs/SEIR/epiFirstSimDurInf_ARG.rdata')
+save(epiFirstSimDurInf,file ='outputs/SEIR/epiFirstSimDurInf_ARG.rdata')
 
 
 rm(epi_doNothingDurInf,epi_baseDurInf,epi_marchDurInf,epi_aprilDurInf)
