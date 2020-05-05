@@ -1,4 +1,4 @@
-# 3_plots_simOutbreak_ARG.r
+# function_plots_simOutbreak.r
 
 ### MODEL PLOTS 
 
@@ -25,7 +25,7 @@ IncidenceAge_plot <- function(epi_doNothing, epi_base, epi_march, epi_april,
                              agegp = 3,
                              legends = c("Sin hacer nada", "Caso 1", "Caso 2", "Caso 3")){
   
-  par(mfrow = c(2,1))
+  par(mfrow = c(2,1), oma=c(0,0,2,0))
   
   # incidence over time
   plot(epi_doNothing[[1]]$time, 
@@ -57,16 +57,52 @@ IncidenceAge_plot <- function(epi_doNothing, epi_base, epi_march, epi_april,
          bty='n',
          lty= rep(1,4),
          lwd= rep(2,4), 
-         cex= 0.8,
-         y.intersp = 0.15)
+         #y.intersp = 0.15,
+         cex= 0.8)
+  mtext(model, line=0, side=3, outer=TRUE, cex=1.5)
+  
+  
+}
+
+
+#Grafica de Infectados para los cuatro casos
+Infected_plot <- function(covid_DurInf, covid_IDurInf, 
+                              legends = c("Sin hacer nada", "Caso 1", "Caso 2", "Caso 3"),
+                              model){
+  l = c("Mediana", "Quartil Inferior",  "Quartil Superior")
+  
+  par(mfrow = c(2,2), oma=c(0,0,2,0))
+  
+  for( i in 1:4){
+    plot(covid_DurInf[[4]][["S"]][["time"]], 
+         covid_IDurInf[[i]][["summary"]][["median"]],
+         xlim=c(0,428),
+       #  ylim=c(0,70000),
+         type="l", 
+         col="black",
+         main= legends[i],
+         xlab="Dias desde el caso nro. 20",
+         ylab="Infectados c/24hs")
+    lines(covid_DurInf[[4]][["S"]][["time"]], 
+          covid_IDurInf[[i]][["summary"]][["lci"]], 
+          col="green")
+    lines(covid_DurInf[[4]][["S"]][["time"]], 
+          covid_IDurInf[[i]][["summary"]][["uci"]], 
+          col="red")
+    legend("topleft" , legend= l,
+           col=c("black", "green", "red"), 
+           lty=2:1,
+           bty='n',
+           cex = 1)
+    mtext(paste0(model,": Nuevos infectados diarios"), line=0, side=3, outer=TRUE, cex=1.5)
+  }
   
 }
 
 
 
-# epiFirstSimDurInf.rData
-IncidenceAge_plot(epi_doNothingDurInf, epi_baseDurInf, epi_marchDurInf, epi_aprilDurInf, 
-                 agegp = 3,
-                 model = "SEIR Model")
+
+
+
 
 

@@ -5,7 +5,7 @@ require(readxl)
 # Argentina Data
 
 loadPopData = TRUE
-loadContactMatrices = FALSE # estan normalizadas? hace falta normalizarlas?
+loadContactMatrices = TRUE 
 loadCaseData = TRUE
 loadR0posterior = TRUE
 

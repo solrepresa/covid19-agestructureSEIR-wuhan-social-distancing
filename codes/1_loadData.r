@@ -5,7 +5,7 @@ require(matrixcalc)
 ## load data: Wuhan's population age structure and Contact matrices
 
 loadPopData = FALSE
-loadContactMatrices = TRUE
+loadContactMatrices = FALSE
 loadCaseData = FALSE
 loadR0posterior = FALSE
 

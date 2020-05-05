@@ -131,5 +131,18 @@ save(AGEcovid_IDurInf,file ='outputs/SEIR/AGEcovid_IDurInf_ARG.rdata')
 save(epiFirstSimDurInf,file ='outputs/SEIR/epiFirstSimDurInf_ARG.rdata')
 
 
-rm(epi_doNothingDurInf,epi_baseDurInf,epi_marchDurInf,epi_aprilDurInf)
+#Save plots
+
+png(file = "plots/Ninfected_SEIR.png", width=1000, height=600)
+Infected_plot(covid_DurInf, covid_IDurInf, model = "SEIR")
+dev.off()
+
+
+png(file="plots/IncidenceAge_SEIR.png", width=600, height=600)
+IncidenceAge_plot(epi_doNothingDurInf, epi_baseDurInf, epi_marchDurInf, epi_aprilDurInf, 
+                  agegp = 3, model = "SEIR Model")
+dev.off()
+
+
+rm(epi_doNothingDurInf,epi_baseDurInf, epi_marchDurInf, epi_aprilDurInf)
 
