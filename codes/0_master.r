@@ -13,11 +13,11 @@ source('codes/function_modelSEIcIscR.r')
 # source the age-structured SEIcIscR model functions 
 source('codes/function_postprocessing.r')
 
+# function plots
+source('codes/function_plots_simOutbreak.r')
+
 # simulate N oubtreaks
 #source('codes/2_simOutbreak_ncov_SEIR.r')  # WUHAN 
 #source('codes/2_simOutbreak_ncov_SEIcIscR.r') # WUHAN
 source('codes/2_simOutbreak_ncov_SEIR_ARG.r')
 source('codes/2_simOutbreak_ncov_SEIcIscR_ARG.r')
-
-# plots
-source('codes/3_plots_simOutbreak_ARG.r')
