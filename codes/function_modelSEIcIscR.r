@@ -84,10 +84,10 @@ getbeta = function(R0t,constraints,gamma,p_age,calculate_transmission_probabilit
     beta = R0t*gamma/max(Re(eig$values))  # reverse engineer beta from the R0 and gamma 
     beta = beta
   }else{
-    beta = 0.025#0.05
+    beta = 0.025  #0.05
   }
   results = list(beta)
-  names(results) =c('beta')
+  names(results) = c('beta')
   return(results)
 }
 
@@ -136,7 +136,7 @@ simulateOutbreakSEIR = function(R0t,rho, R0tpostoutbreak = 1.5, dateEndIntenseIn
   
   # Initialise the time-dependent variables, i.e. setting the values of the variables at time 0
   E[1,] = 0 
-  I[1,] =  pInfected*sum(N_age)/16 #rpois(length(N_age),lambda = pInfected*sum(N_age)/16)  # 100 # Assign 100 infected person in each age group (TODO RELAX?)
+  I[1,] = pInfected*sum(N_age)/16 #rpois(length(N_age),lambda = pInfected*sum(N_age)/16)  # 100 # Assign 100 infected person in each age group (TODO RELAX?)
   R[1,] = 0 
   S[1,] = N_age-E[1,]-I[1,]-R[1,]
   H[1,] = 0                                  # Accumulator function for the infected cases (I) that get re
@@ -164,9 +164,9 @@ simulateOutbreakSEIR = function(R0t,rho, R0tpostoutbreak = 1.5, dateEndIntenseIn
                                   rep(pWorkOpen[4],(tRelaxIntervention3-tRelaxIntervention2)))
   R0tpostoutbreak = R0t #overwrites the default reduction in R0 post-outbreak
   
-  beta = getbeta(R0t = R0t,constraints = constraintsIntervention$base,gamma = gamma,p_age = pop$p_age)
+  beta = getbeta(R0t = R0t, constraints = constraintsIntervention$base, gamma = gamma,p_age = pop$p_age)
   if(pWorkOpen[2]<1) beta_postfirstwave = getbeta(R0t = R0tpostoutbreak,constraints = constraintsIntervention$base,gamma = gamma,p_age = pop$p_age)
-  if(pWorkOpen[2]>=1) beta_postfirstwave = beta#getbeta(R0t = R0t[2],constraints = constraintsIntervention$base,gamma = gamma,p_age = pop$p_age)
+  if(pWorkOpen[2]>=1) beta_postfirstwave = beta  #getbeta(R0t = R0t[2],constraints = constraintsIntervention$base,gamma = gamma,p_age = pop$p_age)
   for (stepIndex in 1: (numSteps-1))
   { 
     
@@ -238,6 +238,7 @@ simulateOutbreakSEIR = function(R0t,rho, R0tpostoutbreak = 1.5, dateEndIntenseIn
                 dateStartSchoolClosure = dateStartSchoolClosure, dateStartCNY = dateStartCNY,dateEndCNY = dateEndCNY)
   return(output)
 }
+
 
 # Children less infectious and as susceptible 
 simulateOutbreakSEIcIscR = function(R0t,rho=c(rep(0.4,4),rep(0.8,12)), R0tpostoutbreak = 1.5,dateEndIntenseIntervention, #date we begin relaxing intense intervention 

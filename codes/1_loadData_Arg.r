@@ -47,7 +47,7 @@ if(loadR0posterior)
   date_range <- seq.Date(start_date,end_date,1)
   
   # extract all estimates from 05.03.2020 - 19.03.2020
-  R0_posterior <- R0_plot[which(date_range == start_date ):which(date_range == end_date),]
+  R0_posterior <- R0_plot[which(date_range == start_date):which(date_range == end_date),]
   range(R0_posterior)
   r0posterior = as.vector((unlist(R0_posterior)))
   par(mfrow=c(2,1))

@@ -8,7 +8,7 @@ set.seed(666)
 
 
 # test for an R0 value of 2.2
-R0est = 2.2
+# R0est = 2.2
 
 # R0est = sample(x = r0posterior, size = 100)
 
@@ -22,7 +22,7 @@ epi_april = vector('list',nsim)
 
 IncidenceAge_plot <- function(epi_doNothing, epi_base, epi_march, epi_april, 
                              model,
-                             agegp = 3,
+                             agegp = 3, # age group
                              legends = c("Sin hacer nada", "Caso 1", "Caso 2", "Caso 3")){
   
   par(mfrow = c(2,1), oma=c(0,0,2,0))
@@ -71,38 +71,40 @@ Infected_plot <- function(covid_DurInf, covid_IDurInf,
                               model){
   l = c("Mediana", "Quartil Inferior",  "Quartil Superior")
   
-  par(mfrow = c(2,2), oma=c(0,0,2,0))
+  par(par(no.readonly=TRUE))
+  par(mfrow=c(2,2), oma=c(4,2,2,4), mar=c(3,3,2,0), pch=16)
   
   for( i in 1:4){
-    plot(covid_DurInf[[4]][["S"]][["time"]], 
-         covid_IDurInf[[i]][["summary"]][["median"]],
-         xlim=c(0,428),
+    plot(covid_DurInf[[4]][["S"]][["time"]]/7, 
+         covid_IDurInf[[i]][["summary"]][["uci"]],
+         xlim=c(0, 61),   # ~428 days
        #  ylim=c(0,70000),
          type="l", 
-         col="black",
+         col="red",
          main= legends[i],
-         xlab="Dias desde el caso nro. 20",
-         ylab="Infectados c/24hs")
-    lines(covid_DurInf[[4]][["S"]][["time"]], 
+         xlab="",
+         ylab="")
+    lines(covid_DurInf[[4]][["S"]][["time"]]/7, 
           covid_IDurInf[[i]][["summary"]][["lci"]], 
           col="green")
-    lines(covid_DurInf[[4]][["S"]][["time"]], 
-          covid_IDurInf[[i]][["summary"]][["uci"]], 
-          col="red")
+    lines(covid_DurInf[[4]][["S"]][["time"]]/7, 
+          covid_IDurInf[[i]][["summary"]][["median"]], 
+          col="black")
     legend("topleft" , legend= l,
            col=c("black", "green", "red"), 
            lty=2:1,
            bty='n',
            cex = 1)
-    mtext(paste0(model,": Nuevos infectados diarios"), line=0, side=3, outer=TRUE, cex=1.5)
   }
+  mtext(text = "Semanas desde el caso nro. 20", side=1,line=0,outer=TRUE)
+  mtext(text = "Infectados c/24hs", side=2,line=0,outer=TRUE)
+  mtext(paste0(model,": Nuevos infectados diarios"), line=0, side=3, outer=TRUE, cex=1.5)
+  mtext("Día final de las intervenciones", side=1,line=2, outer=TRUE, adj = 1)
+  mtext(text = paste("Caso 1:", covid_IDurInf[[1]][["Sim1"]][["dateEndIntenseIntervention"]],
+                     "- Caso 2:", covid_IDurInf[[2]][["Sim1"]][["dateEndIntenseIntervention"]],
+                     "- Caso 3:", covid_IDurInf[[3]][["Sim1"]][["dateEndIntenseIntervention"]],
+                     "- Caso 4:", covid_IDurInf[[4]][["Sim1"]][["dateEndIntenseIntervention"]]), 
+        side=1,line=3, outer=TRUE, adj = 1)
   
 }
-
-
-
-
-
-
-
 

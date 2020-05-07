@@ -7,7 +7,7 @@
 
 ##     PARAMETERS     ##
 durInfSim = 7                     # duration of infection (days)
-initialI = 0.000035               # initial infected  n= ~35 infected
+initialI = 0.000035               # initial infected  n= ~35 infected (1000000)
 dateSSC = as.Date('2020-03-19')   # date Start School Closure
 dateSII = as.Date('2020-03-19')   # date Start Intense Intervention 
 
