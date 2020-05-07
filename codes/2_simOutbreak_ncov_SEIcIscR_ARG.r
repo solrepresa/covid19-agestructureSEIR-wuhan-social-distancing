@@ -137,11 +137,29 @@ Infected_plot(covid_DurInf, covid_IDurInf, model = "SEIcIscR")
 dev.off()
 
 
-png(file="plots/IncidenceAge_SEIcIscR.png", width=600, height=600)
+# Ages = 5-10
+png(file="plots/IncidenceAge_SEIcIscR_5-10.png", width=600, height=600)
 IncidenceAge_plot(epi_doNothingDurInf, epi_baseDurInf, epi_marchDurInf, epi_aprilDurInf, 
-                  agegp = 3, model = "SEIcIscR Model")
+                  agegp = 2, model = "SEIcIscR Model")
 dev.off()
 
+# Ages = 30-35
+png(file="plots/IncidenceAge_SEIcIscR_30-35.png", width=600, height=600)
+IncidenceAge_plot(epi_doNothingDurInf, epi_baseDurInf, epi_marchDurInf, epi_aprilDurInf, 
+                  agegp = 7, model = "SEIcIscR Model")
+dev.off()
+
+# Ages = 45-50
+png(file="plots/IncidenceAge_SEIcIscR_45-50.png", width=600, height=600)
+IncidenceAge_plot(epi_doNothingDurInf, epi_baseDurInf, epi_marchDurInf, epi_aprilDurInf, 
+                  agegp = 10, model = "SEIcIscR Model")
+dev.off()
+
+# Ages = 75 -80
+png(file="plots/IncidenceAge_SEIcIscR_75-80.png", width=600, height=600)
+IncidenceAge_plot(epi_doNothingDurInf, epi_baseDurInf, epi_marchDurInf, epi_aprilDurInf, 
+                  agegp = 16, model = "SEIcIscR Model")
+dev.off()
 
 
 rm(epi_doNothingDurInf,epi_baseDurInf,epi_marchDurInf,epi_aprilDurInf)
