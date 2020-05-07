@@ -1,0 +1,5 @@
+Title: App for SEIR model COVID simulation
+License: MIT
+Author: Sol Represa
+Tags: application for epidemiological simulation of COVID-19 with Argentina data
+Type: Shiny - R
