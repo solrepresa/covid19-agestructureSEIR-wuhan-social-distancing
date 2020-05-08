@@ -12,11 +12,11 @@ set.seed(666)
 
 # R0est = sample(x = r0posterior, size = 100)
 
-nsim = 1
-epi_doNothing = vector('list',nsim)
-epi_base = vector('list',nsim)
-epi_march = vector('list',nsim)
-epi_april = vector('list',nsim)
+#nsim = 1
+#epi_doNothing = vector('list',nsim)
+#epi_base = vector('list',nsim)
+#epi_march = vector('list',nsim)
+#epi_april = vector('list',nsim)
 
 # epiFirstSimDurInf is a .Rdata
 
@@ -25,33 +25,33 @@ IncidenceAge_plot <- function(epi_doNothing, epi_base, epi_march, epi_april,
                              agegp = 3, # age group
                              legends = c("Sin hacer nada", "Caso 1", "Caso 2", "Caso 3")){
   
-  par(mfrow = c(2,1), oma=c(0,0,2,0))
+  par(mfrow = c(2,1), oma=c(1,1,2,1))
   
   # incidence over time
-  plot(epi_doNothing[[1]]$time, 
+  plot(epi_doNothing[[1]]$time/7, 
        epi_doNothing[[1]]$incidence[,agegp], 
        type='l', 
        lwd=2,
        main = paste0("Incidence for age [",(agegp-1)*5,',',agegp*5,')'),
-       xlab = "Time(days)", 
+       xlab = "Time(weeks)", 
        ylab = "Daily no. of infections")
-  lines(x = epi_base[[1]]$time, y = epi_base[[1]]$incidence[,agegp],lwd=2,col='grey40')
-  lines(x = epi_march[[1]]$time, y = epi_march[[1]]$incidence[,agegp],lwd=2,col='steelblue')
-  lines(x = epi_april[[1]]$time, y = epi_april[[1]]$incidence[,agegp],lwd=2,col='tomato',lty='dashed')
+  lines(x = epi_base[[1]]$time/7, y = epi_base[[1]]$incidence[,agegp],lwd=2,col='grey40')
+  lines(x = epi_march[[1]]$time/7, y = epi_march[[1]]$incidence[,agegp],lwd=2,col='steelblue')
+  lines(x = epi_april[[1]]$time/7, y = epi_april[[1]]$incidence[,agegp],lwd=2,col='tomato',lty='dashed')
   
   
   # cumulative incidence over time
-  plot(epi_doNothing[[1]]$time, 
+  plot(epi_doNothing[[1]]$time/7, 
        (epi_doNothing[[1]]$N_age[agegp]-epi_doNothing[[1]]$S[,agegp])/epi_doNothing[[1]]$N_age[agegp], 
        lwd=2,
        type='l', 
        main=paste0("Cum incidence for age [",(agegp-1)*5,',',agegp*5,')'),
-       xlab="Time(days)", 
+       xlab="Time(weeks)", 
        ylab="Cum incidence",
        ylim = c(0,1));
-  lines(epi_base[[1]]$time, (epi_base[[1]]$N_age[agegp]-epi_base[[1]]$S[,agegp])/epi_base[[1]]$N_age[agegp],lwd=2,col='grey40')
-  lines(epi_march[[1]]$time, (epi_march[[1]]$N_age[agegp]-epi_march[[1]]$S[,agegp])/epi_march[[1]]$N_age[agegp],lwd=2,col='steelblue')
-  lines(epi_april[[1]]$time, (epi_april[[1]]$N_age[agegp]-epi_april[[1]]$S[,agegp])/epi_april[[1]]$N_age[agegp],lwd=2,col='tomato',lty='dashed')
+  lines(epi_base[[1]]$time/7, (epi_base[[1]]$N_age[agegp]-epi_base[[1]]$S[,agegp])/epi_base[[1]]$N_age[agegp],lwd=2,col='grey40')
+  lines(epi_march[[1]]$time/7, (epi_march[[1]]$N_age[agegp]-epi_march[[1]]$S[,agegp])/epi_march[[1]]$N_age[agegp],lwd=2,col='steelblue')
+  lines(epi_april[[1]]$time/7, (epi_april[[1]]$N_age[agegp]-epi_april[[1]]$S[,agegp])/epi_april[[1]]$N_age[agegp],lwd=2,col='tomato',lty='dashed')
   legend(0.25, 0.98, legend = legends,
          col = c("black", "grey40","steelblue",'tomato'), 
          bty='n',
@@ -77,7 +77,7 @@ Infected_plot <- function(covid_DurInf, covid_IDurInf,
   for( i in 1:4){
     plot(covid_DurInf[[4]][["S"]][["time"]]/7, 
          covid_IDurInf[[i]][["summary"]][["uci"]],
-         xlim=c(0, 61),   # ~428 days
+       #  xlim=c(0, 61),   # ~428 days
        #  ylim=c(0,70000),
          type="l", 
          col="red",
@@ -99,7 +99,7 @@ Infected_plot <- function(covid_DurInf, covid_IDurInf,
   mtext(text = "Semanas desde el caso nro. 20", side=1,line=0,outer=TRUE)
   mtext(text = "Infectados c/24hs", side=2,line=0,outer=TRUE)
   mtext(paste0(model,": Nuevos infectados diarios"), line=0, side=3, outer=TRUE, cex=1.5)
-  mtext("Día final de las intervenciones", side=1,line=2, outer=TRUE, adj = 1)
+  mtext("Dia final de las intervenciones", side=1,line=2, outer=TRUE, adj = 1)
   mtext(text = paste("Caso 1:", covid_IDurInf[[1]][["Sim1"]][["dateEndIntenseIntervention"]],
                      "- Caso 2:", covid_IDurInf[[2]][["Sim1"]][["dateEndIntenseIntervention"]],
                      "- Caso 3:", covid_IDurInf[[3]][["Sim1"]][["dateEndIntenseIntervention"]],

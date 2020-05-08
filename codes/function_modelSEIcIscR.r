@@ -120,7 +120,7 @@ simulateOutbreakSEIR = function(R0t,rho, R0tpostoutbreak = 1.5, dateEndIntenseIn
   gamma = 1-exp(-1/durInf);                                      # removal rate
   alpha = 1-exp(-1/durLat);                                      # infection rate
   dt = 1;                                                        # Time step (days)
-  tmax = 428;                                                    # Time horizon (days) 366 days in 2020 cause of leap year
+  tmax = 856    #428;                                            # Time horizon (days) 366 days in 2020 cause of leap year
   numSteps = tmax/dt;  	                                         # Total number of simulation time steps
   # dateStart = as.Date('2019-12-01')                            # included as a function argument 
   dateEnd = dateStart+(tmax-1)
@@ -269,7 +269,7 @@ simulateOutbreakSEIcIscR = function(R0t,rho=c(rep(0.4,4),rep(0.8,12)), R0tpostou
   gamma = 1-exp(-1/durInf);                                      # removal rate
   alpha = 1-exp(-1/durLat);                                      # infection rate
   dt = 1;                                                        # Time step (days)
-  tmax = 428;                                                    # Time horizon (days) 366 days in 2020 cause of leap year
+  tmax = 856 # 428;                                              # Time horizon (days) 366 days in 2020 cause of leap year
   numSteps = tmax/dt;  	                                         # Total number of simulation time steps
   # dateStart = as.Date('2019-12-01')                            # included as a function argument 
   dateEnd = dateStart+(tmax-1)
