@@ -51,15 +51,15 @@ ui <- fluidPage(
              dateInput("dateEII1", label = "Date End Intense Intervention", value = "2020-04-10"),
              
              h4("Number of stagger weeks"),
-             sliderInput('numWeekStagger_11', 'First change', 2, min = 0, max = 10, step = 1),
-             sliderInput('numWeekStagger_12', 'Second change', 4, min = 0, max = 10, step = 1),
-             sliderInput('numWeekStagger_13', 'Third change', 6, min = 0, max = 10, step = 1),
+             sliderInput('numWeekStagger_11', 'First change', 2, min = 0, max = 120, step = 1),
+             sliderInput('numWeekStagger_12', 'Second change', 4, min = 0, max = 120, step = 1),
+             sliderInput('numWeekStagger_13', 'Third change', 6, min = 0, max = 120, step = 1),
              
              h4("Proportion of the work force that is working"),
-             sliderInput('WorkOpen_11', 'Initial Period', 1, min = 0, max = 1, step = 0.25),
-             sliderInput('WorkOpen_12', 'Second Period', 1, min = 0, max = 1, step = 0.25),
-             sliderInput('WorkOpen_13', 'Third Period', 1, min = 0, max = 1, step = 0.25),
-             sliderInput('WorkOpen_14', 'Fourth period', 1, min = 0, max = 1, step = 0.25)
+             sliderInput('WorkOpen_11', 'Initial Period', 1, min = 0, max = 1, step = 0.01),
+             sliderInput('WorkOpen_12', 'Second Period', 1, min = 0, max = 1, step = 0.01),
+             sliderInput('WorkOpen_13', 'Third Period', 1, min = 0, max = 1, step = 0.01),
+             sliderInput('WorkOpen_14', 'Fourth period', 1, min = 0, max = 1, step = 0.01)
       ),
       
       column(6,
@@ -69,15 +69,15 @@ ui <- fluidPage(
              dateInput("dateEII2", label = "Date End Intense Intervention", value = "2020-04-24"),
 
              h4("Number of stagger weeks"),
-             sliderInput('numWeekStagger_21', 'First change', 2, min = 0, max = 10, step = 1),
-             sliderInput('numWeekStagger_22', 'Second change', 4, min = 0, max = 10, step = 1),
-             sliderInput('numWeekStagger_23', 'Third change', 6, min = 0, max = 10, step = 1),
+             sliderInput('numWeekStagger_21', 'First change', 2, min = 0, max = 120, step = 1),
+             sliderInput('numWeekStagger_22', 'Second change', 4, min = 0, max = 120, step = 1),
+             sliderInput('numWeekStagger_23', 'Third change', 6, min = 0, max = 120, step = 1),
              
              h4("Proportion of the work force that is working"),
-             sliderInput('WorkOpen_21', 'Initial period', 1, min = 0, max = 1, step = 0.25),
-             sliderInput('WorkOpen_22', 'Second period', 1, min = 0, max = 1, step = 0.25),
-             sliderInput('WorkOpen_23', 'Third period', 1, min = 0, max = 1, step = 0.25),
-             sliderInput('WorkOpen_24', 'Fourth period', 1, min = 0, max = 1, step = 0.25)
+             sliderInput('WorkOpen_21', 'Initial period', 1, min = 0, max = 1, step = 0.01),
+             sliderInput('WorkOpen_22', 'Second period', 1, min = 0, max = 1, step = 0.01),
+             sliderInput('WorkOpen_23', 'Third period', 1, min = 0, max = 1, step = 0.01),
+             sliderInput('WorkOpen_24', 'Fourth period', 1, min = 0, max = 1, step = 0.01)
              
       ),
       column(6,
@@ -87,15 +87,15 @@ ui <- fluidPage(
              dateInput("dateEII3", label = "Date End Intense Intervention", value = "2020-05-10"),
 
              h4("Number of stagger weeks"),
-             sliderInput('numWeekStagger_31', 'First change', 2, min = 0, max = 10, step = 1),
-             sliderInput('numWeekStagger_32', 'Second change', 4, min = 0, max = 10, step = 1),
-             sliderInput('numWeekStagger_33', 'Third change', 6, min = 0, max = 10, step = 1),
+             sliderInput('numWeekStagger_31', 'First change', 2, min = 0, max = 120, step = 1),
+             sliderInput('numWeekStagger_32', 'Second change', 4, min = 0, max = 120, step = 1),
+             sliderInput('numWeekStagger_33', 'Third change', 6, min = 0, max = 120, step = 1),
              
              h4("Proportion of the work force that is working"),
-             sliderInput('WorkOpen_31', 'Proportion of the work', 1, min = 0, max = 1, step = 0.25),
-             sliderInput('WorkOpen_32', 'Proportion of the work', 1, min = 0, max = 1, step = 0.25),
-             sliderInput('WorkOpen_33', 'Proportion of the work', 1, min = 0, max = 1, step = 0.25),
-             sliderInput('WorkOpen_34', 'Proportion of the work', 1, min = 0, max = 1, step = 0.25),
+             sliderInput('WorkOpen_31', 'Proportion of the work', 1, min = 0, max = 1, step = 0.01),
+             sliderInput('WorkOpen_32', 'Proportion of the work', 1, min = 0, max = 1, step = 0.01),
+             sliderInput('WorkOpen_33', 'Proportion of the work', 1, min = 0, max = 1, step = 0.01),
+             sliderInput('WorkOpen_34', 'Proportion of the work', 1, min = 0, max = 1, step = 0.01),
              
              submitButton("Run the model")
              )
@@ -237,7 +237,7 @@ server <- function(input, output){
     for( i in 1:4){
       plot(covid_I[[i]]()[["Sim1"]][["time"]]/7,
            covid_I[[i]]()[["summary"]][["uci"]],
-           xlim=c(0, 61),    # ~428 days
+          # xlim=c(0, 61),    # ~428 days
            #  ylim=c(0,70000),
            type="l", 
            col="red",
@@ -288,7 +288,7 @@ server <- function(input, output){
       for( i in 1:4){
         plot(covid_I[[i]]()[["Sim1"]][["time"]]/7,
              covid_I[[i]]()[["summary"]][["uci"]],
-             xlim=c(0, 61),    # ~428 days
+            # xlim=c(0, 61),    # ~428 days
              #  ylim=c(0,70000),
              type="l", 
              col="red",
