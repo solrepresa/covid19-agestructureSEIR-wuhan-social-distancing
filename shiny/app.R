@@ -1,6 +1,10 @@
 # App COVID SEIcIscR
 
+#install.packages("shiny")
+#install.packages("shinyBS")
+
 library(shiny)
+library(shinyBS)
 
 
 ### CARGAMOS DATA DE COVID  ###
@@ -105,7 +109,8 @@ ui <- fluidPage(
   
   mainPanel(
     h3("New daily infected"),
-    plotOutput("modelplot"),
+    #bsModal(id= "modelplot", title="Titulo"),
+    plotOutput("modelplot", height = "800px"),
     downloadButton(outputId = "down", label = "Download the plot"),
     downloadButton(outputId = "downParameters", label = "Download the parameters"),
     h3("Incidence for age"),
@@ -373,156 +378,104 @@ server <- function(input, output){
     }
   )
   
+  agegp = c(2, 7, 10, 16)  # What ages do you plot?
+  
   output$modelplot2 <- renderPlot({   # incidence over time
     
-    agegp =2
-    
-    par(mfrow = c(2,1), oma=c(1,1,2,1))
-    
-    plot(epi_doNothing_l()[[1]][["time"]]/7, 
-         epi_doNothing_l()[[1]][["incidence"]][,agegp], 
+    plot(epi_doNothing_l()[[1]]$time/7,       
+         epi_doNothing_l()[[1]]$incidence[,agegp[2]], 
          type='l', 
          lwd=2,
-         main = paste0("Incidence for age [",(agegp-1)*5,',',agegp*5,')'),
+         main = legends[1],
          xlab = "Time(weeks)", 
          ylab = "Daily no. of infections")
-    lines(x = epi_base_l()[[1]][["time"]]/7, y = epi_base_l()[[1]][["incidence"]][,agegp],lwd=2,col='grey40')
-    lines(x = epi_march_l()[[1]][["time"]]/7, y = epi_march_l()[[1]][["incidence"]][,agegp],lwd=2,col='steelblue')
-    lines(x = epi_april_l()[[1]][["time"]]/7, y = epi_april_l()[[1]][["incidence"]][,agegp],lwd=2,col='tomato',lty='dashed')
-    
-    
-    plot(epi_doNothing_l()[[1]][["time"]]/7, 
-         (epi_doNothing_l()[[1]][["N_age"]][agegp] - epi_doNothing_l()[[1]][["S"]][,agegp])/epi_doNothing_l()[[1]][["N_age"]][agegp], 
-         lwd=2,
-         type='l', 
-         main=paste0("Cum incidence for age [",(agegp-1)*5,',',agegp*5,')'),
-         xlab="Time(weeks)", 
-         ylab="Cum incidence",
-         ylim = c(0,1));
-    lines(epi_base_l()[[1]][["time"]]/7, (epi_base_l()[[1]][["N_age"]][agegp]-epi_base_l()[[1]][["S"]][,agegp])/epi_base_l()[[1]][["N_age"]][agegp],lwd=2,col='grey40')
-    lines(epi_march_l()[[1]][["time"]]/7, (epi_march_l()[[1]][["N_age"]][agegp]-epi_march_l()[[1]][["S"]][,agegp])/epi_march_l()[[1]][["N_age"]][agegp],lwd=2,col='steelblue')
-    lines(epi_april_l()[[1]][["time"]]/7, (epi_april_l()[[1]][["N_age"]][agegp]-epi_april_l()[[1]][["S"]][,agegp])/epi_april_l()[[1]][["N_age"]][agegp],lwd=2,col='tomato',lty='dashed')
-    legend(0.25, 0.98, legend = legends,
+    lines(x = epi_doNothing_l()[[1]]$time/7, y = epi_doNothing_l()[[1]]$incidence[,agegp[1]],lwd=2,col='grey40')
+    lines(x = epi_doNothing_l()[[1]]$time/7, y = epi_doNothing_l()[[1]]$incidence[,agegp[3]],lwd=2,col='steelblue')
+    lines(x = epi_doNothing_l()[[1]]$time/7, y = epi_doNothing_l()[[1]]$incidence[,agegp[4]],lwd=2,col='tomato')
+    legend("topright", 
+           legend = c(paste0("[", (agegp[1]-1)*5,',',agegp[1]*5,')'), paste0("[",(agegp[2]-1)*5,',',agegp[2]*5,')'),
+                      paste0("[",(agegp[3]-1)*5,',',agegp[3]*5,')'), paste0("[",(agegp[4]-1)*5,',',agegp[4]*5,')')),
            col = c("black", "grey40","steelblue",'tomato'), 
            bty='n',
            lty= rep(1,4),
            lwd= rep(2,4), 
+           title = "Incidence for age",
            #y.intersp = 0.15,
            cex= 0.8)
   })
   
   output$modelplot3 <- renderPlot({   # incidence over time
     
-    agegp = 7
-    
-    par(mfrow = c(2,1), oma=c(1,1,2,1))
-    
-    plot(epi_doNothing_l()[[1]][["time"]]/7, 
-         epi_doNothing_l()[[1]][["incidence"]][,agegp], 
+    plot(epi_base_l()[[1]]$time/7,       
+         epi_base_l()[[1]]$incidence[,agegp[2]], 
          type='l', 
          lwd=2,
-         main = paste0("Incidence for age [",(agegp-1)*5,',',agegp*5,')'),
+         main = legends[2],
          xlab = "Time(weeks)", 
          ylab = "Daily no. of infections")
-    lines(x = epi_base_l()[[1]][["time"]]/7, y = epi_base_l()[[1]][["incidence"]][,agegp],lwd=2,col='grey40')
-    lines(x = epi_march_l()[[1]][["time"]]/7, y = epi_march_l()[[1]][["incidence"]][,agegp],lwd=2,col='steelblue')
-    lines(x = epi_april_l()[[1]][["time"]]/7, y = epi_april_l()[[1]][["incidence"]][,agegp],lwd=2,col='tomato',lty='dashed')
-    
-    
-    plot(epi_doNothing_l()[[1]][["time"]]/7, 
-         (epi_doNothing_l()[[1]][["N_age"]][agegp] - epi_doNothing_l()[[1]][["S"]][,agegp])/epi_doNothing_l()[[1]][["N_age"]][agegp], 
-         lwd=2,
-         type='l', 
-         main=paste0("Cum incidence for age [",(agegp-1)*5,',',agegp*5,')'),
-         xlab="Time(weeks)", 
-         ylab="Cum incidence",
-         ylim = c(0,1));
-    lines(epi_base_l()[[1]][["time"]]/7, (epi_base_l()[[1]][["N_age"]][agegp]-epi_base_l()[[1]][["S"]][,agegp])/epi_base_l()[[1]][["N_age"]][agegp],lwd=2,col='grey40')
-    lines(epi_march_l()[[1]][["time"]]/7, (epi_march_l()[[1]][["N_age"]][agegp]-epi_march_l()[[1]][["S"]][,agegp])/epi_march_l()[[1]][["N_age"]][agegp],lwd=2,col='steelblue')
-    lines(epi_april_l()[[1]][["time"]]/7, (epi_april_l()[[1]][["N_age"]][agegp]-epi_april_l()[[1]][["S"]][,agegp])/epi_april_l()[[1]][["N_age"]][agegp],lwd=2,col='tomato',lty='dashed')
-    legend(0.25, 0.98, legend = legends,
+    lines(x = epi_base_l()[[1]]$time/7, y = epi_base_l()[[1]]$incidence[,agegp[1]],lwd=2,col='grey40')
+    lines(x = epi_base_l()[[1]]$time/7, y = epi_base_l()[[1]]$incidence[,agegp[3]],lwd=2,col='steelblue')
+    lines(x = epi_base_l()[[1]]$time/7, y = epi_base_l()[[1]]$incidence[,agegp[4]],lwd=2,col='tomato')
+    legend("topright", 
+           legend = c(paste0("[", (agegp[1]-1)*5,',',agegp[1]*5,')'), paste0("[",(agegp[2]-1)*5,',',agegp[2]*5,')'),
+                      paste0("[",(agegp[3]-1)*5,',',agegp[3]*5,')'), paste0("[",(agegp[4]-1)*5,',',agegp[4]*5,')')),
            col = c("black", "grey40","steelblue",'tomato'), 
            bty='n',
            lty= rep(1,4),
            lwd= rep(2,4), 
+           title = "Incidence for age",
            #y.intersp = 0.15,
            cex= 0.8)
   })
   
   output$modelplot4 <- renderPlot({   # incidence over time
     
-    agegp = 10
-    
-    par(mfrow = c(2,1), oma=c(1,1,2,1))
-    
-    plot(epi_doNothing_l()[[1]][["time"]]/7, 
-         epi_doNothing_l()[[1]][["incidence"]][,agegp], 
+    plot(epi_march_l()[[1]]$time/7,       
+         epi_march_l()[[1]]$incidence[,agegp[2]], 
          type='l', 
          lwd=2,
-         main = paste0("Incidence for age [",(agegp-1)*5,',',agegp*5,')'),
+         main = legends[3],
          xlab = "Time(weeks)", 
          ylab = "Daily no. of infections")
-    lines(x = epi_base_l()[[1]][["time"]]/7, y = epi_base_l()[[1]][["incidence"]][,agegp],lwd=2,col='grey40')
-    lines(x = epi_march_l()[[1]][["time"]]/7, y = epi_march_l()[[1]][["incidence"]][,agegp],lwd=2,col='steelblue')
-    lines(x = epi_april_l()[[1]][["time"]]/7, y = epi_april_l()[[1]][["incidence"]][,agegp],lwd=2,col='tomato',lty='dashed')
-    
-    
-    plot(epi_doNothing_l()[[1]][["time"]]/7, 
-         (epi_doNothing_l()[[1]][["N_age"]][agegp] - epi_doNothing_l()[[1]][["S"]][,agegp])/epi_doNothing_l()[[1]][["N_age"]][agegp], 
-         lwd=2,
-         type='l', 
-         main=paste0("Cum incidence for age [",(agegp-1)*5,',',agegp*5,')'),
-         xlab="Time(weeks)", 
-         ylab="Cum incidence",
-         ylim = c(0,1));
-    lines(epi_base_l()[[1]][["time"]]/7, (epi_base_l()[[1]][["N_age"]][agegp]-epi_base_l()[[1]][["S"]][,agegp])/epi_base_l()[[1]][["N_age"]][agegp],lwd=2,col='grey40')
-    lines(epi_march_l()[[1]][["time"]]/7, (epi_march_l()[[1]][["N_age"]][agegp]-epi_march_l()[[1]][["S"]][,agegp])/epi_march_l()[[1]][["N_age"]][agegp],lwd=2,col='steelblue')
-    lines(epi_april_l()[[1]][["time"]]/7, (epi_april_l()[[1]][["N_age"]][agegp]-epi_april_l()[[1]][["S"]][,agegp])/epi_april_l()[[1]][["N_age"]][agegp],lwd=2,col='tomato',lty='dashed')
-    legend(0.25, 0.98, legend = legends,
+    lines(x = epi_march_l()[[1]]$time/7, y = epi_march_l()[[1]]$incidence[,agegp[1]],lwd=2,col='grey40')
+    lines(x = epi_march_l()[[1]]$time/7, y = epi_march_l()[[1]]$incidence[,agegp[3]],lwd=2,col='steelblue')
+    lines(x = epi_march_l()[[1]]$time/7, y = epi_march_l()[[1]]$incidence[,agegp[4]],lwd=2,col='tomato')
+    legend("topright", 
+           legend = c(paste0("[", (agegp[1]-1)*5,',',agegp[1]*5,')'), paste0("[",(agegp[2]-1)*5,',',agegp[2]*5,')'),
+                      paste0("[",(agegp[3]-1)*5,',',agegp[3]*5,')'), paste0("[",(agegp[4]-1)*5,',',agegp[4]*5,')')),
            col = c("black", "grey40","steelblue",'tomato'), 
            bty='n',
            lty= rep(1,4),
            lwd= rep(2,4), 
+           title = "Incidence for age",
            #y.intersp = 0.15,
            cex= 0.8)
   })
   
   output$modelplot5 <- renderPlot({   # incidence over time
     
-    agegp = 16
-    
-    par(mfrow = c(2,1), oma=c(1,1,2,1))
-    
-    plot(epi_doNothing_l()[[1]][["time"]]/7, 
-         epi_doNothing_l()[[1]][["incidence"]][,agegp], 
+    plot(epi_april_l()[[1]]$time/7,       
+         epi_april_l()[[1]]$incidence[,agegp[2]], 
          type='l', 
          lwd=2,
-         main = paste0("Incidence for age [",(agegp-1)*5,',',agegp*5,')'),
+         main = legends[4],
          xlab = "Time(weeks)", 
          ylab = "Daily no. of infections")
-    lines(x = epi_base_l()[[1]][["time"]]/7, y = epi_base_l()[[1]][["incidence"]][,agegp],lwd=2,col='grey40')
-    lines(x = epi_march_l()[[1]][["time"]]/7, y = epi_march_l()[[1]][["incidence"]][,agegp],lwd=2,col='steelblue')
-    lines(x = epi_april_l()[[1]][["time"]]/7, y = epi_april_l()[[1]][["incidence"]][,agegp],lwd=2,col='tomato',lty='dashed')
-    
-    
-    plot(epi_doNothing_l()[[1]][["time"]]/7, 
-         (epi_doNothing_l()[[1]][["N_age"]][agegp] - epi_doNothing_l()[[1]][["S"]][,agegp])/epi_doNothing_l()[[1]][["N_age"]][agegp], 
-         lwd=2,
-         type='l', 
-         main=paste0("Cum incidence for age [",(agegp-1)*5,',',agegp*5,')'),
-         xlab="Time(weeks)", 
-         ylab="Cum incidence",
-         ylim = c(0,1));
-    lines(epi_base_l()[[1]][["time"]]/7, (epi_base_l()[[1]][["N_age"]][agegp]-epi_base_l()[[1]][["S"]][,agegp])/epi_base_l()[[1]][["N_age"]][agegp],lwd=2,col='grey40')
-    lines(epi_march_l()[[1]][["time"]]/7, (epi_march_l()[[1]][["N_age"]][agegp]-epi_march_l()[[1]][["S"]][,agegp])/epi_march_l()[[1]][["N_age"]][agegp],lwd=2,col='steelblue')
-    lines(epi_april_l()[[1]][["time"]]/7, (epi_april_l()[[1]][["N_age"]][agegp]-epi_april_l()[[1]][["S"]][,agegp])/epi_april_l()[[1]][["N_age"]][agegp],lwd=2,col='tomato',lty='dashed')
-    legend(0.25, 0.98, legend = legends,
+    lines(x = epi_april_l()[[1]]$time/7, y = epi_april_l()[[1]]$incidence[,agegp[1]],lwd=2,col='grey40')
+    lines(x = epi_april_l()[[1]]$time/7, y = epi_april_l()[[1]]$incidence[,agegp[3]],lwd=2,col='steelblue')
+    lines(x = epi_april_l()[[1]]$time/7, y = epi_april_l()[[1]]$incidence[,agegp[4]],lwd=2,col='tomato')
+    legend("topright", 
+           legend = c(paste0("[", (agegp[1]-1)*5,',',agegp[1]*5,')'), paste0("[",(agegp[2]-1)*5,',',agegp[2]*5,')'),
+                      paste0("[",(agegp[3]-1)*5,',',agegp[3]*5,')'), paste0("[",(agegp[4]-1)*5,',',agegp[4]*5,')')),
            col = c("black", "grey40","steelblue",'tomato'), 
            bty='n',
            lty= rep(1,4),
            lwd= rep(2,4), 
+           title = "Incidence for age",
            #y.intersp = 0.15,
            cex= 0.8)
+    
+    
   })
   
   output$down2 <- downloadHandler(
