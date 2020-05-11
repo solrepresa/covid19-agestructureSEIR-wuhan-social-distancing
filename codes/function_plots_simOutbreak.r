@@ -7,23 +7,11 @@
 set.seed(666)
 
 
-# test for an R0 value of 2.2
-# R0est = 2.2
-
-# R0est = sample(x = r0posterior, size = 100)
-
-#nsim = 1
-#epi_doNothing = vector('list',nsim)
-#epi_base = vector('list',nsim)
-#epi_march = vector('list',nsim)
-#epi_april = vector('list',nsim)
-
-# epiFirstSimDurInf is a .Rdata
 
 IncidenceAge_plot <- function(epi_doNothing, epi_base, epi_march, epi_april, 
                              model,
                              agegp = 3, # age group
-                             legends = c("Sin hacer nada", "Caso 1", "Caso 2", "Caso 3")){
+                             legends = c("Sin intervencion", "Caso 1", "Caso 2", "Caso 3")){
   
   par(mfrow = c(2,1), oma=c(1,1,2,1))
   
@@ -65,9 +53,146 @@ IncidenceAge_plot <- function(epi_doNothing, epi_base, epi_march, epi_april,
 }
 
 
+# incidence by age over time for all ages
+
+IncidenceAllAges_plot <- function(epi_doNothing, epi_base, epi_march, epi_april, 
+                              model,
+                              ages = c(3,7,10,12), # age group
+                              legends = c("Sin intervencion", "Caso 1", "Caso 2", "Caso 3")){
+  
+  par(mfrow = c(length(ages),1), oma=c(1,1,2,1))
+  
+  for(i in 1:length(ages)){
+    agegp = ages[i]
+    plot(epi_doNothing[[1]]$time/7,       
+         epi_doNothing[[1]]$incidence[,agegp], 
+         type='l', 
+         lwd=2,
+         main = paste0("Incidence for age [",(agegp-1)*5,',',agegp*5,')'),
+         xlab = "Time(weeks)", 
+         ylab = "Daily no. of infections")
+    lines(x = epi_base[[1]]$time/7, y = epi_base[[1]]$incidence[,agegp],lwd=2,col='grey40')
+    lines(x = epi_march[[1]]$time/7, y = epi_march[[1]]$incidence[,agegp],lwd=2,col='steelblue')
+    lines(x = epi_april[[1]]$time/7, y = epi_april[[1]]$incidence[,agegp],lwd=2,col='tomato',lty='dashed')
+    legend(0.25, 0.98, legend = legends,
+           col = c("black", "grey40","steelblue",'tomato'), 
+           bty='n',
+           lty= rep(1,4),
+           lwd= rep(2,4), 
+           #y.intersp = 0.15,
+           cex= 0.8)
+  }
+  mtext(model, line=0, side=3, outer=TRUE, cex=1.5)
+}
+
+
+
+
+# incidence by age over time for all ages separated by cases
+
+IncidenceAllAgesByCases_plot <- function(epi_doNothing, epi_base, epi_march, epi_april, 
+                                  model,
+                                  agegp = c(3,7,10,12), # age group
+                                  legends = c("Sin intervencion", "Caso 1", "Caso 2", "Caso 3")){
+  
+  par(mfrow = c(4,1), oma=c(1,1,2,1))
+  
+  # Caso 1
+  plot(epi_doNothing[[1]]$time/7,       
+       epi_doNothing[[1]]$incidence[,agegp[1]], 
+       type='l', 
+       lwd=2,
+       main = legends[1],
+       xlab = "Time(weeks)", 
+       ylab = "Daily no. of infections")
+  lines(x = epi_doNothing[[1]]$time/7, y = epi_doNothing[[1]]$incidence[,agegp[2]],lwd=2,col='grey40')
+  lines(x = epi_doNothing[[1]]$time/7, y = epi_doNothing[[1]]$incidence[,agegp[3]],lwd=2,col='steelblue')
+  lines(x = epi_doNothing[[1]]$time/7, y = epi_doNothing[[1]]$incidence[,agegp[4]],lwd=2,col='tomato')
+  legend("topright", 
+         legend = c(paste0("[", (agegp[1]-1)*5,',',agegp[1]*5,')'), paste0("[",(agegp[2]-1)*5,',',agegp[2]*5,')'),
+                    paste0("[",(agegp[3]-1)*5,',',agegp[3]*5,')'), paste0("[",(agegp[4]-1)*5,',',agegp[4]*5,')')),
+         col = c("black", "grey40","steelblue",'tomato'), 
+         bty='n',
+         lty= rep(1,4),
+         lwd= rep(2,4), 
+         title = "Incidence for age",
+         #y.intersp = 0.15,
+         cex= 0.8)
+  
+  # Caso 2
+  plot(epi_base[[1]]$time/7,       
+       epi_base[[1]]$incidence[,agegp[1]], 
+       type='l', 
+       lwd=2,
+       main = legends[2],
+       xlab = "Time(weeks)", 
+       ylab = "Daily no. of infections")
+  lines(x = epi_base[[1]]$time/7, y = epi_base[[1]]$incidence[,agegp[2]],lwd=2,col='grey40')
+  lines(x = epi_base[[1]]$time/7, y = epi_base[[1]]$incidence[,agegp[3]],lwd=2,col='steelblue')
+  lines(x = epi_base[[1]]$time/7, y = epi_base[[1]]$incidence[,agegp[4]],lwd=2,col='tomato')
+  legend("topright", 
+         legend = c(paste0("[", (agegp[1]-1)*5,',',agegp[1]*5,')'), paste0("[",(agegp[2]-1)*5,',',agegp[2]*5,')'),
+                    paste0("[",(agegp[3]-1)*5,',',agegp[3]*5,')'), paste0("[",(agegp[4]-1)*5,',',agegp[4]*5,')')),
+         col = c("black", "grey40","steelblue",'tomato'), 
+         bty='n',
+         lty= rep(1,4),
+         lwd= rep(2,4), 
+         title = "Incidence for age",
+         #y.intersp = 0.15,
+         cex= 0.8)
+  
+  # Caso 3
+  plot(epi_march[[1]]$time/7,       
+       epi_march[[1]]$incidence[,agegp[1]], 
+       type='l', 
+       lwd=2,
+       main = legends[3],
+       xlab = "Time(weeks)", 
+       ylab = "Daily no. of infections")
+  lines(x = epi_march[[1]]$time/7, y = epi_march[[1]]$incidence[,agegp[2]],lwd=2,col='grey40')
+  lines(x = epi_march[[1]]$time/7, y = epi_march[[1]]$incidence[,agegp[3]],lwd=2,col='steelblue')
+  lines(x = epi_march[[1]]$time/7, y = epi_march[[1]]$incidence[,agegp[4]],lwd=2,col='tomato')
+  legend("topright", 
+         legend = c(paste0("[", (agegp[1]-1)*5,',',agegp[1]*5,')'), paste0("[",(agegp[2]-1)*5,',',agegp[2]*5,')'),
+                    paste0("[",(agegp[3]-1)*5,',',agegp[3]*5,')'), paste0("[",(agegp[4]-1)*5,',',agegp[4]*5,')')),
+         col = c("black", "grey40","steelblue",'tomato'), 
+         bty='n',
+         lty= rep(1,4),
+         lwd= rep(2,4), 
+         title = "Incidence for age",
+         #y.intersp = 0.15,
+         cex= 0.8)
+  
+  # Caso 4
+  plot(epi_april[[1]]$time/7,       
+       epi_april[[1]]$incidence[,agegp[1]], 
+       type='l', 
+       lwd=2,
+       main = legends[4],
+       xlab = "Time(weeks)", 
+       ylab = "Daily no. of infections")
+  lines(x = epi_april[[1]]$time/7, y = epi_april[[1]]$incidence[,agegp[2]],lwd=2,col='grey40')
+  lines(x = epi_april[[1]]$time/7, y = epi_april[[1]]$incidence[,agegp[3]],lwd=2,col='steelblue')
+  lines(x = epi_april[[1]]$time/7, y = epi_april[[1]]$incidence[,agegp[4]],lwd=2,col='tomato')
+  legend("topright", 
+         legend = c(paste0("[", (agegp[1]-1)*5,',',agegp[1]*5,')'), paste0("[",(agegp[2]-1)*5,',',agegp[2]*5,')'),
+                    paste0("[",(agegp[3]-1)*5,',',agegp[3]*5,')'), paste0("[",(agegp[4]-1)*5,',',agegp[4]*5,')')),
+         col = c("black", "grey40","steelblue",'tomato'), 
+         bty='n',
+         lty= rep(1,4),
+         lwd= rep(2,4), 
+         title = "Incidence for age",
+         #y.intersp = 0.15,
+         cex= 0.8)
+  
+  mtext(model, line=0, side=3, outer=TRUE, cex=1.5)
+}
+
+
+
 #Grafica de Infectados para los cuatro casos
 Infected_plot <- function(covid_DurInf, covid_IDurInf, 
-                              legends = c("Sin hacer nada", "Caso 1", "Caso 2", "Caso 3"),
+                              legends = c("Sin intervencion", "Caso 1", "Caso 2", "Caso 3"),
                               model){
   l = c("Mediana", "Quartil Inferior",  "Quartil Superior")
   
