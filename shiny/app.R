@@ -113,13 +113,21 @@ ui <- fluidPage(
     plotOutput("modelplot", height = "800px"),
     downloadButton(outputId = "down", label = "Download the plot"),
     downloadButton(outputId = "downParameters", label = "Download the parameters"),
+    
     h3("Incidence for age"),
-    plotOutput("modelplot2"),
-    plotOutput("modelplot3"),
-    plotOutput("modelplot4"),
-    plotOutput("modelplot5"),
+    plotOutput("modelplot2"),  #inc caso 0
+    plotOutput("modelplot3"),  #inc caso 1
+    plotOutput("modelplot4"), #inc caso 2
+    plotOutput("modelplot5"),  #inc caso 3
+    
+    h3("Cumulative incidence over time"),
+    plotOutput("modelplot6"),  #cum caso 0
+    plotOutput("modelplot7"),  #cum caso 1
+    plotOutput("modelplot8"),  #cum caso 2
+    plotOutput("modelplot9"),  #cum caso 3
     numericInput("age", label = "Age to save plot", value = 10, max = 16),
     downloadButton(outputId = "down2", label = "Download the plot")
+    
   )
 
 )
@@ -250,19 +258,19 @@ server <- function(input, output){
           # xlim=c(0, 61),    # ~428 days
            #  ylim=c(0,70000),
            type="l", 
-           col="red",
+           col='tomato',
            main= legends[i],
            xlab="",
            ylab="")
       lines(covid_I[[i]]()[["Sim1"]][["time"]]/7, 
             covid_I[[i]]()[["summary"]][["lci"]], 
-            col="green")
+            col="steelblue")
       lines(covid_I[[i]]()[["Sim1"]][["time"]]/7, 
             covid_I[[i]]()[["summary"]][["median"]], 
             col="black")
-      legend("topleft" , legend= l,
-             col=c("black", "green", "red"), 
-             lty=2:1,
+      legend("topright" , legend= l,
+             col=c("black", "steelblue",'tomato'), 
+          #  lty=2:1,
              bty='n',
              cex = 1)
       mtext(text = "Infectados c/24hs", side=2,line=0,outer=TRUE)
@@ -395,7 +403,7 @@ server <- function(input, output){
     legend("topright", 
            legend = c(paste0("[", (agegp[1]-1)*5,',',agegp[1]*5,')'), paste0("[",(agegp[2]-1)*5,',',agegp[2]*5,')'),
                       paste0("[",(agegp[3]-1)*5,',',agegp[3]*5,')'), paste0("[",(agegp[4]-1)*5,',',agegp[4]*5,')')),
-           col = c("black", "grey40","steelblue",'tomato'), 
+           col = c("grey40", "black", "steelblue",'tomato'), 
            bty='n',
            lty= rep(1,4),
            lwd= rep(2,4), 
@@ -419,7 +427,7 @@ server <- function(input, output){
     legend("topright", 
            legend = c(paste0("[", (agegp[1]-1)*5,',',agegp[1]*5,')'), paste0("[",(agegp[2]-1)*5,',',agegp[2]*5,')'),
                       paste0("[",(agegp[3]-1)*5,',',agegp[3]*5,')'), paste0("[",(agegp[4]-1)*5,',',agegp[4]*5,')')),
-           col = c("black", "grey40","steelblue",'tomato'), 
+           col = c("grey40", "black", "steelblue",'tomato'), 
            bty='n',
            lty= rep(1,4),
            lwd= rep(2,4), 
@@ -443,7 +451,7 @@ server <- function(input, output){
     legend("topright", 
            legend = c(paste0("[", (agegp[1]-1)*5,',',agegp[1]*5,')'), paste0("[",(agegp[2]-1)*5,',',agegp[2]*5,')'),
                       paste0("[",(agegp[3]-1)*5,',',agegp[3]*5,')'), paste0("[",(agegp[4]-1)*5,',',agegp[4]*5,')')),
-           col = c("black", "grey40","steelblue",'tomato'), 
+           col = c("grey40", "black", "steelblue",'tomato'), 
            bty='n',
            lty= rep(1,4),
            lwd= rep(2,4), 
@@ -467,13 +475,115 @@ server <- function(input, output){
     legend("topright", 
            legend = c(paste0("[", (agegp[1]-1)*5,',',agegp[1]*5,')'), paste0("[",(agegp[2]-1)*5,',',agegp[2]*5,')'),
                       paste0("[",(agegp[3]-1)*5,',',agegp[3]*5,')'), paste0("[",(agegp[4]-1)*5,',',agegp[4]*5,')')),
-           col = c("black", "grey40","steelblue",'tomato'), 
+           col = c("grey40", "black", "steelblue",'tomato'), 
            bty='n',
            lty= rep(1,4),
            lwd= rep(2,4), 
            title = "Incidence for age",
            #y.intersp = 0.15,
            cex= 0.8)
+    
+    
+  })
+  
+  
+  # cumulative incidence over time
+  
+  output$modelplot6 <- renderPlot({ 
+    
+    plot(epi_doNothing_l()[[1]]$time/7, 
+         (epi_doNothing_l()[[1]]$N_age[agegp[2]]-epi_doNothing_l()[[1]]$S[,agegp[2]])/epi_doNothing_l()[[1]]$N_age[agegp[2]], 
+         lwd=2,
+         type='l', 
+         main= legends[1],
+         xlab="Time(weeks)", 
+         ylab="Cum incidence",
+         ylim = c(0,1));
+    lines(epi_doNothing_l()[[1]]$time/7, (epi_doNothing_l()[[1]]$N_age[agegp[1]]-epi_doNothing_l()[[1]]$S[,agegp[1]])/epi_doNothing_l()[[1]]$N_age[agegp[1]],lwd=2,col='grey40')
+    lines(epi_doNothing_l()[[1]]$time/7, (epi_doNothing_l()[[1]]$N_age[agegp[3]]-epi_doNothing_l()[[1]]$S[,agegp[3]])/epi_doNothing_l()[[1]]$N_age[agegp[3]],lwd=2,col='steelblue')
+    lines(epi_doNothing_l()[[1]]$time/7, (epi_doNothing_l()[[1]]$N_age[agegp[4]]-epi_doNothing_l()[[1]]$S[,agegp[4]])/epi_doNothing_l()[[1]]$N_age[agegp[4]],lwd=2,col='tomato',lty='dashed')
+    legend("bottomright", 
+           legend = c(paste0("[", (agegp[1]-1)*5,',',agegp[1]*5,')'), paste0("[",(agegp[2]-1)*5,',',agegp[2]*5,')'),
+                      paste0("[",(agegp[3]-1)*5,',',agegp[3]*5,')'), paste0("[",(agegp[4]-1)*5,',',agegp[4]*5,')')),
+           col = c("grey40", "black", "steelblue",'tomato'), 
+           bty='n',
+           lty= rep(1,4),
+           lwd= rep(2,4), 
+           title = "Cumulative incidence for age",
+           #y.intersp = 0.15,
+           cex= 0.8)
+  })
+  
+  output$modelplot7 <- renderPlot({  
+    
+    plot(epi_base_l()[[1]]$time/7,       
+         (epi_base_l()[[1]]$N_age[agegp[2]]-epi_base_l()[[1]]$S[,agegp[2]])/epi_base_l()[[1]]$N_age[agegp[2]], 
+         type='l', 
+         lwd=2,
+         main = legends[2],
+         xlab = "Time(weeks)", 
+         ylab = "Daily no. of infections")
+    lines(epi_base_l()[[1]]$time/7, (epi_base_l()[[1]]$N_age[agegp[1]]-epi_base_l()[[1]]$S[,agegp[1]])/epi_base_l()[[1]]$N_age[agegp[1]],lwd=2,col='grey40')
+    lines(epi_base_l()[[1]]$time/7, (epi_base_l()[[1]]$N_age[agegp[3]]-epi_base_l()[[1]]$S[,agegp[3]])/epi_base_l()[[1]]$N_age[agegp[3]],lwd=2,col='steelblue')
+    lines(epi_base_l()[[1]]$time/7, (epi_base_l()[[1]]$N_age[agegp[4]]-epi_base_l()[[1]]$S[,agegp[4]])/epi_base_l()[[1]]$N_age[agegp[4]],lwd=2,col='tomato',lty='dashed')
+    legend("bottomright", 
+           legend = c(paste0("[", (agegp[1]-1)*5,',',agegp[1]*5,')'), paste0("[",(agegp[2]-1)*5,',',agegp[2]*5,')'),
+                      paste0("[",(agegp[3]-1)*5,',',agegp[3]*5,')'), paste0("[",(agegp[4]-1)*5,',',agegp[4]*5,')')),
+           col = c("grey40", "black", "steelblue",'tomato'), 
+           bty='n',
+           lty= rep(1,4),
+           lwd= rep(2,4), 
+           title = "Cumulative incidence for age",
+           #y.intersp = 0.15,
+           cex= 0.8)
+  })
+  
+  output$modelplot8 <- renderPlot({  
+    plot(epi_march_l()[[1]]$time/7,       
+         (epi_march_l()[[1]]$N_age[agegp[2]]-epi_march_l()[[1]]$S[,agegp[2]])/epi_march_l()[[1]]$N_age[agegp[2]], 
+         type='l', 
+         lwd=2,
+         main = legends[3],
+         xlab = "Time(weeks)", 
+         ylab = "Daily no. of infections")
+    lines(epi_march_l()[[1]]$time/7, (epi_march_l()[[1]]$N_age[agegp[1]]-epi_march_l()[[1]]$S[,agegp[1]])/epi_march_l()[[1]]$N_age[agegp[1]],lwd=2,col='grey40')
+    lines(epi_march_l()[[1]]$time/7, (epi_march_l()[[1]]$N_age[agegp[3]]-epi_march_l()[[1]]$S[,agegp[3]])/epi_march_l()[[1]]$N_age[agegp[3]],lwd=2,col='steelblue')
+    lines(epi_march_l()[[1]]$time/7, (epi_march_l()[[1]]$N_age[agegp[4]]-epi_march_l()[[1]]$S[,agegp[4]])/epi_march_l()[[1]]$N_age[agegp[4]],lwd=2,col='tomato',lty='dashed')
+    legend("bottomright", 
+           legend = c(paste0("[", (agegp[1]-1)*5,',',agegp[1]*5,')'), paste0("[",(agegp[2]-1)*5,',',agegp[2]*5,')'),
+                      paste0("[",(agegp[3]-1)*5,',',agegp[3]*5,')'), paste0("[",(agegp[4]-1)*5,',',agegp[4]*5,')')),
+           col = c("grey40", "black", "steelblue",'tomato'), 
+           bty='n',
+           lty= rep(1,4),
+           lwd= rep(2,4), 
+           title = "Cumulative incidence for age",
+           #y.intersp = 0.15,
+           cex= 0.8)
+
+  })
+  
+  output$modelplot9 <- renderPlot({   
+    plot(epi_april_l()[[1]]$time/7,       
+         (epi_april_l()[[1]]$N_age[agegp[2]]-epi_april_l()[[1]]$S[,agegp[2]])/epi_april_l()[[1]]$N_age[agegp[2]], 
+         type='l', 
+         lwd=2,
+         main = legends[4],
+         xlab = "Time(weeks)", 
+         ylab = "Daily no. of infections")
+    lines(epi_april_l()[[1]]$time/7, (epi_april_l()[[1]]$N_age[agegp[1]]-epi_april_l()[[1]]$S[,agegp[1]])/epi_april_l()[[1]]$N_age[agegp[1]],lwd=2,col='grey40')
+    lines(epi_april_l()[[1]]$time/7, (epi_april_l()[[1]]$N_age[agegp[3]]-epi_april_l()[[1]]$S[,agegp[3]])/epi_april_l()[[1]]$N_age[agegp[3]],lwd=2,col='steelblue')
+    lines(epi_april_l()[[1]]$time/7, (epi_april_l()[[1]]$N_age[agegp[4]]-epi_april_l()[[1]]$S[,agegp[4]])/epi_april_l()[[1]]$N_age[agegp[4]],lwd=2,col='tomato',lty='dashed')
+    legend("bottomright", 
+           legend = c(paste0("[", (agegp[1]-1)*5,',',agegp[1]*5,')'), paste0("[",(agegp[2]-1)*5,',',agegp[2]*5,')'),
+                      paste0("[",(agegp[3]-1)*5,',',agegp[3]*5,')'), paste0("[",(agegp[4]-1)*5,',',agegp[4]*5,')')),
+           col = c("grey40", "black", "steelblue",'tomato'), 
+           bty='n',
+           lty= rep(1,4),
+           lwd= rep(2,4), 
+           title = "Cumulative incidence for age",
+           #y.intersp = 0.15,
+           cex= 0.8)
+
     
     
   })
@@ -525,8 +635,9 @@ server <- function(input, output){
              cex= 0.8)
       
       dev.off()
-      }
-    )
+    }
+  )
+  
 
 }
 
