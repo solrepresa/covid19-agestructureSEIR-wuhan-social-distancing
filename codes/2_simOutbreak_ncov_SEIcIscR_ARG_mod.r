@@ -11,21 +11,22 @@ epi_marchDurInf = vector('list',nsim)
 epi_aprilDurInf = vector('list',nsim)
 start = Sys.time()
 
-for(sim in 1:nsim)
-{
-  epi_doNothingDurInf[[sim]] = simulateOutbreakSEIcIscR(R0t = R0est[sim],
-                                                         R0tpostoutbreak = R0tpostoutbreak,
-                                                         rho = c(rep(0.4,4),rep(0.8,12)),  #defect value
-                                                         dateStart = dateStart,
-                                                         dateStartSchoolClosure = dateSSC,
-                                                         dateStartIntenseIntervention = dateSII, 
-                                                         dateEndIntenseIntervention = dateSII,  #date we begin relaxing intense intervention
-                                                         pWorkOpen = pWorkOpen0,   # pWorkOpen: proportion of the work force that is working (will be time-varying)
-                                                         numWeekStagger = numWeekStagger0,
-                                                         pInfected = initialI,
-                                                         durInf = durInfSim)
+for(sim in 1:nsim){
+  epi_doNothingDurInf[[sim]] = simulateOutbreakSEIcIscR_mod(R0t = R0est[sim],
+                                                        R0tpostoutbreak = R0tpostoutbreak,
+                                                        rho = c(rep(0.4,4),rep(0.8,12)),  #defect value
+                                                        dateStart = dateStart,
+                                                        dateStartSchoolClosure = dateSSC,
+                                                        dateStartIntenseIntervention = dateSII, 
+                                                        dateEndIntenseIntervention = dateSII,  #date we begin relaxing intense intervention
+                                                        pWorkOpen = pWorkOpen0,   # pWorkOpen: proportion of the work force that is working (will be time-varying)
+                                                        pSchoolOpen = pSchoolOpen0,  
+                                                        pOtherOpen = pOtherOpen0,
+                                                        numWeekStagger = numWeekStagger0,
+                                                        pInfected = initialI,
+                                                        durInf = durInfSim)
   
-  epi_baseDurInf[[sim]] = simulateOutbreakSEIcIscR(R0t = R0est[sim],
+  epi_baseDurInf[[sim]] = simulateOutbreakSEIcIscR_mod(R0t = R0est[sim],
                                                    R0tpostoutbreak = 1.17,
                                                    rho = c(rep(0.4,4),rep(0.8,12)),
                                                    dateStart = dateStart,
@@ -33,11 +34,13 @@ for(sim in 1:nsim)
                                                    dateStartIntenseIntervention = dateSII, 
                                                    dateEndIntenseIntervention = dateEII1,
                                                    pWorkOpen = pWorkOpen1,
+                                                   pSchoolOpen = pSchoolOpen1,  
+                                                   pOtherOpen = pOtherOpen1,
                                                    numWeekStagger = numWeekStagger1,
                                                    pInfected = initialI,
                                                    durInf = durInfSim)
   
-  epi_marchDurInf[[sim]] = simulateOutbreakSEIcIscR(R0t = R0est[sim],
+  epi_marchDurInf[[sim]] = simulateOutbreakSEIcIscR_mod(R0t = R0est[sim],
                                                     R0tpostoutbreak = 1.17,
                                                     rho=c(rep(0.4,4),rep(0.8,12)),
                                                     dateStart = dateStart,
@@ -45,11 +48,13 @@ for(sim in 1:nsim)
                                                     dateStartIntenseIntervention = dateSII, 
                                                     dateEndIntenseIntervention = dateEII2,
                                                     pWorkOpen = pWorkOpen2,
+                                                    pSchoolOpen = pSchoolOpen2,  
+                                                    pOtherOpen = pOtherOpen2,
                                                     numWeekStagger = numWeekStagger2,
                                                     pInfected = initialI,
                                                     durInf = durInfSim)
   
-  epi_aprilDurInf[[sim]] = simulateOutbreakSEIcIscR(R0t =R0est[sim],
+  epi_aprilDurInf[[sim]] = simulateOutbreakSEIcIscR_mod(R0t =R0est[sim],
                                                     R0tpostoutbreak = 1.17,
                                                     rho = c(rep(0.4,4),rep(0.8,12)),
                                                     dateStart = dateStart,
@@ -57,6 +62,8 @@ for(sim in 1:nsim)
                                                     dateStartIntenseIntervention = dateSII, 
                                                     dateEndIntenseIntervention = dateEII3,
                                                     pWorkOpen = pWorkOpen3,
+                                                    pSchoolOpen = pSchoolOpen3,  
+                                                    pOtherOpen = pOtherOpen3,
                                                     numWeekStagger = numWeekStagger3,
                                                     pInfected = initialI,
                                                     durInf = durInfSim)
@@ -97,9 +104,9 @@ AGEcovid_IDurInf[[3]] = summariseSimulationsAGE(VAR = 'incidence',CI = 50, SIMS 
 AGEcovid_IDurInf[[4]] = summariseSimulationsAGE(VAR = 'incidence',CI = 50, SIMS = epi_aprilDurInf)
 
 epiFirstSimDurInf = list(epi_doNothingDurInf = epi_doNothingDurInf[[1]],
-                            epi_baseDurInf= epi_baseDurInf[[1]],
-                            epi_marchDurInf = epi_marchDurInf[[1]],
-                            epi_aprilDurInf = epi_aprilDurInf[[1]])
+                         epi_baseDurInf= epi_baseDurInf[[1]],
+                         epi_marchDurInf = epi_marchDurInf[[1]],
+                         epi_aprilDurInf = epi_aprilDurInf[[1]])
 
 save(covid_SDurInf,file = 'outputs/SEIcIscR/covid_SDurInf_ARG.rdata')
 save(covid_IDurInf,file = 'outputs/SEIcIscR/covid_IDurInf_ARG.rdata')
@@ -112,34 +119,48 @@ save(epiFirstSimDurInf, file ='outputs/SEIcIscR/epiFirstSimDurInf_ARG.rdata')
 
 #Save plots
 
-png(file = "plots/Ninfected_SEIcIscR.png", width=1000, height=600)
-Infected_plot(covid_DurInf, covid_IDurInf, model = "SEIcIscR")
+png(file = "plots/Ninfected_MOD_SEIcIscR.png", width=1000, height=600)
+Infected_plot(covid_DurInf, covid_IDurInf, model = "Modelo SEIcIscR")
 dev.off()
 
+# Incidence All Ages By Cases
+png(file = "plots/IncidenceByCases_MOD_SEIcIscR.png", width=750, height=500)
+IncidenceAllAgesByCases_plot(epi_doNothingDurInf, epi_baseDurInf, epi_marchDurInf, epi_aprilDurInf,
+                             agegp = c(3,7,10,12), 
+                             model = "Modelo SEIcIscR")
+dev.off()
+
+
+png(file = "plots/CumulativeByCases_MOD_SEIcIscR.png", width=750, height=500)
+CumulativeAllAgesByCases_plot(epi_doNothingDurInf, epi_baseDurInf, epi_marchDurInf, epi_aprilDurInf,
+                              agegp = c(3,7,10,12), 
+                              model = "Modelo SEIcIscR")
+dev.off()
+
+
+
+
+## Others plots
 
 # Ages = 5-10
-png(file="plots/IncidenceAge_SEIcIscR_5-10.png", width=600, height=600)
 IncidenceAge_plot(epi_doNothingDurInf, epi_baseDurInf, epi_marchDurInf, epi_aprilDurInf, 
                   agegp = 2, model = "SEIcIscR Model")
-dev.off()
 
 # Ages = 30-35
-png(file="plots/IncidenceAge_SEIcIscR_30-35.png", width=600, height=600)
 IncidenceAge_plot(epi_doNothingDurInf, epi_baseDurInf, epi_marchDurInf, epi_aprilDurInf, 
                   agegp = 7, model = "SEIcIscR Model")
-dev.off()
 
 # Ages = 45-50
-png(file="plots/IncidenceAge_SEIcIscR_45-50.png", width=600, height=600)
 IncidenceAge_plot(epi_doNothingDurInf, epi_baseDurInf, epi_marchDurInf, epi_aprilDurInf, 
                   agegp = 10, model = "SEIcIscR Model")
-dev.off()
 
 # Ages = 75 -80
-png(file="plots/IncidenceAge_SEIcIscR_75-80.png", width=600, height=600)
 IncidenceAge_plot(epi_doNothingDurInf, epi_baseDurInf, epi_marchDurInf, epi_aprilDurInf, 
                   agegp = 16, model = "SEIcIscR Model")
-dev.off()
+
+
+
+
 
 
 rm(epi_doNothingDurInf,epi_baseDurInf,epi_marchDurInf,epi_aprilDurInf)
