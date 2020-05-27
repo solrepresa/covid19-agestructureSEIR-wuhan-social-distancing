@@ -139,6 +139,30 @@ dev.off()
 
 
 
+png(file = "plots/IncidenseWeeks_SEIcIscR.png", width=800, height=600)
+IncidenceWeeks_plot(epi_doNothingDurInf, epi_baseDurInf, epi_marchDurInf, epi_aprilDurInf,
+                    model = "Modelo SEIcIscR")
+
+dev.off()
+
+
+
+
+png(file = "plots/FrecRelativaIC_SEIcIscR.png", width=800, height=600)
+FrecRelativaTotalIc_plot(epi_doNothingDurInf, epi_baseDurInf, epi_marchDurInf, epi_aprilDurInf,
+                    model = "Modelo SEIcIscR")
+
+dev.off()
+
+
+png(file = "plots/FrecRelativaISC_SEIcIscR.png", width=800, height=600)
+FrecRelativaTotalIsc_plot(epi_doNothingDurInf, epi_baseDurInf, epi_marchDurInf, epi_aprilDurInf,
+                         model = "Modelo SEIcIscR")
+
+dev.off()
+
+
+
 
 ## Others plots
 

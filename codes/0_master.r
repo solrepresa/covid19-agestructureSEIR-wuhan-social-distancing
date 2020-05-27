@@ -1,3 +1,5 @@
+#setwd("C:\\Users\\solre\\covid19-agestructureSEIR-wuhan-social-distancing")
+
 # Preprocessing Argentina data
 source('codes/ARG_Data.r')
 

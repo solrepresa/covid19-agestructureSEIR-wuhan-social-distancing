@@ -288,3 +288,262 @@ CumulativeAllAgesByCases_plot <- function(epi_doNothing, epi_base, epi_march, ep
   mtext(text = "Infectados c/24hs", side=2,line=0,outer=TRUE)
   mtext(model, line=0, side=3, outer=TRUE, cex=1.5)
 }
+
+
+
+IncidenceWeeks_plot <- function(epi_doNothing, epi_base, epi_march, epi_april, 
+                                model,
+                                timesp = as.numeric(Sys.Date() - as.Date('2020-03-19')),  #week
+                                legends = c("Sin intervencion", "Caso 1", "Caso 2", "Caso 3")){
+  
+  names_arg = c("[0,5)", "[5,10)", "[10,15)", "[15,20)", "[20,25)", 
+                "[25,30)", "[30,35)", "[35,40)", "[40,45)", "[45,50)", 
+                "[50,55)", "[55,60)", "[60,65)", "[65,70)", "[70,75)", "[75,80)")
+  
+  max_plot <- max(c(epi_doNothing[[1]]$incidence[timesp,], epi_base[[1]]$incidence[timesp,], 
+                    epi_march[[1]]$incidence[timesp,], epi_april[[1]]$incidence[timesp,]))
+  par(par(no.readonly=TRUE))
+  par(mfrow=c(2,2), oma=c(2,2,4,2), mar=c(3,3,2,0) + 0.5)
+  
+  
+  # Caso 1
+  barplot(epi_doNothing[[1]]$incidence[timesp,], 
+          names.arg = names_arg,
+          main = legends[1],
+          xlab = "", 
+          ylab = "",
+          xlim = c(0, max_plot),
+          las = 1,
+          horiz = TRUE)
+  
+  # Caso 2
+  barplot(epi_base[[1]]$incidence[timesp,], 
+          names.arg = names_arg,
+          main = legends[2],
+          xlab = "", 
+          ylab = "",
+          xlim = c(0, max_plot),
+          las = 1,
+          horiz = TRUE)
+  
+  # Caso 3
+  barplot(epi_march[[1]]$incidence[timesp,], 
+          names.arg = names_arg,
+          main = legends[3],
+          xlab = "", 
+          ylab = "",
+          xlim = c(0, max_plot),
+          las = 1,
+          horiz = TRUE)
+  
+  # Caso 4
+  barplot(epi_april[[1]]$incidence[timesp,], 
+          names.arg = names_arg,
+          main = legends[4],
+          xlab = "", 
+          ylab = "",
+          xlim = c(0, max_plot),
+          las = 1,
+          horiz = TRUE)
+  
+  mtext(text = "Infectados nuevos c/24hs", side=1,line=0,outer=TRUE)
+  mtext(model, line=2, side=3, outer=TRUE, cex=1.5)
+  mtext(paste("Semanas ", round(timesp/7, digits = 1) ), line=1, side=3, outer=TRUE, cex=1)
+}
+
+
+
+
+### GRAFICA frecuencia relativa por Edad a un cierto t
+
+
+FrecRelativaTotalIc_plot <- function(epi_doNothing, epi_base, epi_march, epi_april, 
+                           model,
+                           timesp = as.numeric(Sys.Date() - as.Date('2020-03-19')),  #week
+                           legends = c("Sin intervencion", "Caso 1", "Caso 2", "Caso 3")){
+  
+  names_arg = c("[0,5)", "[5,10)", "[10,15)", "[15,20)", "[20,25)", 
+                "[25,30)", "[30,35)", "[35,40)", "[40,45)", "[45,50)", 
+                "[50,55)", "[55,60)", "[60,65)", "[65,70)", "[70,75)", "[75,80)")
+  
+  max_plot <- max(c(epi_doNothing[[1]]$Ic[timesp,]/sum(epi_doNothing[[1]]$Ic[timesp,]), 
+                    epi_base[[1]]$Ic[timesp,]/sum(epi_base[[1]]$Ic[timesp,]), 
+                    epi_march[[1]]$Ic[timesp,]/sum(epi_march[[1]]$Ic[timesp,]),
+                    epi_april[[1]]$Ic[timesp,]/sum(epi_april[[1]]$Ic[timesp,])))
+  
+  par(par(no.readonly=TRUE))
+  par(mfrow=c(2,2), oma=c(2,2,4,2), mar=c(3,3,2,0) + 0.5)
+  
+  
+  # Caso 1
+  barplot(epi_doNothing[[1]]$Ic[timesp,]/sum(epi_doNothing[[1]]$Ic[timesp,]), 
+               names.arg = names_arg,
+       main = legends[1],
+       xlab = "", 
+       ylab = "",
+       xlim = c(0, max_plot),
+       las = 1,
+       horiz = TRUE)
+
+  # Caso 2
+  barplot(epi_base[[1]]$Ic[timesp,]/sum(epi_base[[1]]$Ic[timesp,]), 
+          names.arg = names_arg,
+       main = legends[2],
+       xlab = "", 
+       ylab = "",
+       xlim = c(0, max_plot),
+       las = 1,
+       horiz = TRUE)
+  
+  # Caso 3
+  barplot(epi_march[[1]]$Ic[timesp,]/sum(epi_march[[1]]$Ic[timesp,]), 
+          names.arg = names_arg,
+          main = legends[3],
+          xlab = "", 
+          ylab = "",
+          xlim = c(0, max_plot),
+          las = 1,
+          horiz = TRUE)
+  
+  # Caso 4
+  barplot(epi_april[[1]]$Ic[timesp,]/sum(epi_april[[1]]$Ic[timesp,]), 
+          names.arg = names_arg,
+          main = legends[4],
+          xlab = "", 
+          ylab = "",
+          xlim = c(0, max_plot),
+          las = 1,
+          horiz = TRUE)
+  
+  mtext(text = "Frecuencia Relativa Infectados Clínicos", side=1,line=0,outer=TRUE)
+  mtext(model, line=2, side=3, outer=TRUE, cex=1.5)
+  mtext(paste("Semanas ", round(timesp/7, digits = 1) ), line=1, side=3, outer=TRUE, cex=1)
+}
+
+
+FrecRelativaTotalIsc_plot <- function(epi_doNothing, epi_base, epi_march, epi_april, 
+                                     model,
+                                     timesp = as.numeric(Sys.Date() - as.Date('2020-03-19')),  #week
+                                     legends = c("Sin intervencion", "Caso 1", "Caso 2", "Caso 3")){
+  
+  names_arg = c("[0,5)", "[5,10)", "[10,15)", "[15,20)", "[20,25)", 
+                "[25,30)", "[30,35)", "[35,40)", "[40,45)", "[45,50)", 
+                "[50,55)", "[55,60)", "[60,65)", "[65,70)", "[70,75)", "[75,80)")
+  
+  max_plot <- max(c(epi_doNothing[[1]]$Isc[timesp,]/sum(epi_doNothing[[1]]$Isc[timesp,]), 
+                    epi_base[[1]]$Isc[timesp,]/sum(epi_base[[1]]$Isc[timesp,]), 
+                    epi_march[[1]]$Isc[timesp,]/sum(epi_march[[1]]$Isc[timesp,]),
+                    epi_april[[1]]$Isc[timesp,]/sum(epi_april[[1]]$Isc[timesp,])))
+  
+  par(par(no.readonly=TRUE))
+  par(mfrow=c(2,2), oma=c(2,2,4,2), mar=c(3,3,2,0) + 0.5)
+  
+  
+  # Caso 1
+  barplot(epi_doNothing[[1]]$Isc[timesp,]/sum(epi_doNothing[[1]]$Isc[timesp,]), 
+          names.arg = names_arg,
+          main = legends[1],
+          xlab = "", 
+          ylab = "",
+          xlim = c(0, max_plot),
+          las = 1,
+          horiz = TRUE)
+  
+  # Caso 2
+  barplot(epi_base[[1]]$Isc[timesp,]/sum(epi_base[[1]]$Isc[timesp,]), 
+          names.arg = names_arg,
+          main = legends[2],
+          xlab = "", 
+          ylab = "",
+          xlim = c(0, max_plot),
+          las = 1,
+          horiz = TRUE)
+  
+  # Caso 3
+  barplot(epi_march[[1]]$Isc[timesp,]/sum(epi_march[[1]]$Isc[timesp,]), 
+          names.arg = names_arg,
+          main = legends[3],
+          xlab = "", 
+          ylab = "",
+          xlim = c(0, max_plot),
+          las = 1,
+          horiz = TRUE)
+  
+  # Caso 4
+  barplot(epi_april[[1]]$Isc[timesp,]/sum(epi_april[[1]]$Isc[timesp,]), 
+          names.arg = names_arg,
+          main = legends[4],
+          xlab = "", 
+          ylab = "",
+          xlim = c(0, max_plot),
+          las = 1,
+          horiz = TRUE)
+  
+  mtext(text = "Frecuencia Relativa Infectados Subclínicos", side=1,line=0,outer=TRUE)
+  mtext(model, line=2, side=3, outer=TRUE, cex=1.5)
+  mtext(paste("Semanas ", round(timesp/7, digits = 1) ), line=1, side=3, outer=TRUE, cex=1)
+}
+
+
+ProporcionIc_plot <- function(epi_doNothing, epi_base, epi_march, epi_april, 
+                                      model,
+                                      timesp = as.numeric(Sys.Date() - as.Date('2020-03-19')),  #week
+                                      legends = c("Sin intervencion", "Caso 1", "Caso 2", "Caso 3")){
+  
+  names_arg = c("[0,5)", "[5,10)", "[10,15)", "[15,20)", "[20,25)", 
+                "[25,30)", "[30,35)", "[35,40)", "[40,45)", "[45,50)", 
+                "[50,55)", "[55,60)", "[60,65)", "[65,70)", "[70,75)", "[75,80)")
+  
+  max_plot <- max(c(epi_doNothing[[1]]$Ic[timesp,]/ (epi_doNothing[[1]]$Isc[timesp,] + epi_doNothing[[1]]$Ic[timesp,]), 
+                    epi_base[[1]]$Ic[timesp,]/ (epi_base[[1]]$Isc[timesp,] + epi_base[[1]]$Ic[timesp,]), 
+                    epi_march[[1]]$Ic[timesp,]/(epi_march[[1]]$Isc[timesp,] + epi_march[[1]]$Ic[timesp,]),
+                    epi_april[[1]]$Ic[timesp,]/ (epi_april[[1]]$Isc[timesp,] + epi_april[[1]]$Ic[timesp,])))
+  
+  par(par(no.readonly=TRUE))
+  par(mfrow=c(2,2), oma=c(2,2,4,2), mar=c(3,3,2,0) + 0.5)
+  
+  
+  # Caso 1
+  barplot(epi_doNothing[[1]]$Ic[timesp,]/ (epi_doNothing[[1]]$Isc[timesp,] + epi_doNothing[[1]]$Ic[timesp,]), 
+          names.arg = names_arg,
+          main = legends[1],
+          xlab = "", 
+          ylab = "",
+          xlim = c(0, max_plot),
+          las = 1,
+          horiz = TRUE)
+  
+  # Caso 2
+  barplot(epi_base[[1]]$Ic[timesp,]/ (epi_base[[1]]$Isc[timesp,] + epi_base[[1]]$Ic[timesp,]), 
+          names.arg = names_arg,
+          main = legends[2],
+          xlab = "", 
+          ylab = "",
+          xlim = c(0, max_plot),
+          las = 1,
+          horiz = TRUE)
+  
+  # Caso 3
+  barplot(epi_march[[1]]$Ic[timesp,]/(epi_march[[1]]$Isc[timesp,] + epi_march[[1]]$Ic[timesp,]), 
+          names.arg = names_arg,
+          main = legends[3],
+          xlab = "", 
+          ylab = "",
+          xlim = c(0, max_plot),
+          las = 1,
+          horiz = TRUE)
+  
+  # Caso 4
+  barplot(epi_april[[1]]$Ic[timesp,]/ (epi_april[[1]]$Isc[timesp,] + epi_april[[1]]$Ic[timesp,]), 
+          names.arg = names_arg,
+          main = legends[4],
+          xlab = "", 
+          ylab = "",
+          xlim = c(0, max_plot),
+          las = 1,
+          horiz = TRUE)
+  
+  mtext(text = "Proporción Ic / Ic+Isc", side=1,line=0,outer=TRUE)
+  mtext(model, line=2, side=3, outer=TRUE, cex=1.5)
+  mtext(paste("Semanas ", round(timesp/7, digits = 1) ), line=1, side=3, outer=TRUE, cex=1)
+}
