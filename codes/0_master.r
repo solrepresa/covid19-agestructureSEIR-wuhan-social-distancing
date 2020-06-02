@@ -30,4 +30,5 @@ source("codes/parameter_simulation_ARG.r")
 #source('codes/2_simOutbreak_ncov_SEIcIscR.r') # WUHAN
 #source('codes/2_simOutbreak_ncov_SEIR_ARG.r')
 #source('codes/2_simOutbreak_ncov_SEIcIscR_ARG.r')
-source('codes/2_simOutbreak_ncov_SEIcIscR_ARG_mod.r')
+source('codes/2_simOutbreak_ncov_SEIcIscR_ARG_mod.r')   # Modificar p_school,  p_work, p_other
+source('codes/2_sim_10_Outbreak_ncov_SEIcIscR_ARG.r')    #Modificado para 10 pasos
